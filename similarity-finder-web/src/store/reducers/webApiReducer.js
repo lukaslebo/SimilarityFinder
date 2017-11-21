@@ -1,6 +1,6 @@
 import { } from '../actions/types';
 
-const API_BASE_URL = 'https://propulsion-blitz.herokuapp.com/api';
+const API_BASE_URL = 'https://localhost:8080';
 
 const initialState = {
   user: {},
@@ -10,7 +10,7 @@ const initialState = {
   blitzList: [],
 }
 
-export const blitzReducer = (state =  initialState, action) => {
+export const webApiReducer = (state =  initialState, action) => {
   let newState = { ...state };
   switch (action.type) {
 
