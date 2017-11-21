@@ -6,7 +6,7 @@ Web application that allows to compare your personal document (i.e. a thesis) ag
 
 * Lukas Lebovitz
 
-## Technology Stack used
+## Technology Stack used
 
 * Spring Boot
 * JPA
