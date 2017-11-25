@@ -11,7 +11,7 @@ const initialState = {
 }
 
 export const webApiReducer = (state =  initialState, action) => {
-  let newState = { ...state };
+  // let newState = { ...state };
   switch (action.type) {
 
     default:

@@ -4,10 +4,11 @@ import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import store from './store';
+import WebApp from './containers/WebApp'
 
 ReactDOM.render(
 <Provider store = { store }>
-  <div>Hello World</div>
+  <WebApp/>
 </Provider>
 , document.getElementById('root'));
 
