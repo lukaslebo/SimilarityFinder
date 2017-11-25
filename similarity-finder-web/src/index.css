@@ -1,5 +1,18 @@
+html {
+  font-family: roboto, sans-serif;
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+}
+
+.btn-outline-primary {
+  border-color: blue;
+  color: blue;
+}
+
+.btn-outline-primary:hover {
+  background-color: blue;
+  border-color: blue;
 }
