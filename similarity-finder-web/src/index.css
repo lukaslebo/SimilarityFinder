@@ -16,3 +16,8 @@ body {
   background-color: blue;
   border-color: blue;
 }
+
+.btn:focus,.btn:active {
+  outline: none !important;
+  box-shadow: none;
+}
