@@ -17,7 +17,13 @@ body {
   border-color: blue;
 }
 
-.btn:focus,.btn:active {
+.btn:focus {
   outline: none !important;
   box-shadow: none;
 }
+
+.btn:active {
+  border-color: rgb(115, 115, 255);
+  background-color: rgb(115, 115, 255);
+}
+
