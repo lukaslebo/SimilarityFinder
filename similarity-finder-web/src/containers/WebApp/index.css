@@ -1,0 +1,47 @@
+.grid-wrapper {
+  margin: auto;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr minmax(300px, 40vw) 50px minmax(300px, 40vw) 1fr;
+  grid-template-rows: 40px 100px minmax(500px, 75vh) 1fr 35px;
+  grid-gap: 0px;
+  grid-template-areas: 
+    ". header header header ."
+    ". topleft . topright ."
+    ". leftframe . rightframe ."
+    ". . . . ."
+    ". footer footer footer .";
+}
+
+#header {
+  grid-area: header;
+}
+
+#topleft {
+  grid-area: topleft;
+}
+
+#topcenter {
+  grid-area: topcenter;
+}
+
+#topright {
+  grid-area: topright;
+}
+
+#leftframe {
+  grid-area: leftframe;
+}
+
+#centerframe {
+  grid-area: centerframe;
+}
+
+#rightframe {
+  grid-area: rightframe;
+}
+
+#footer {
+  grid-area: footer;
+}
+

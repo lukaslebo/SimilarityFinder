@@ -1,0 +1,20 @@
+#topcenter {
+  padding: 5px;
+}
+
+.btn-description {
+  margin: 0;
+}
+
+.btn-description span {
+  font-style: italic;
+}
+
+.btn-description span:hover {
+  color: red;
+  transition: 0.5s;
+}
+
+.btn-description span:not(:hover) {
+  transition: 0.5s;
+}
