@@ -11,11 +11,11 @@ class Footer extends React.Component {
     return (
       <div id={ this.props.id }>
         <ul className="footer">
-          <li>Author</li>
+          <li><a href="">Author</a></li>
           <li>|</li>
-          <li>Description</li>
+          <li><a href="">Description</a></li>
           <li>|</li>
-          <li>Contact</li>
+          <li><a href="">Contact</a></li>
         </ul>
       </div>
     );

@@ -10,3 +10,15 @@
   padding-right: 10px;
   float: right;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+  color: blue;
+  transition: 0.3s;
+}
