@@ -10,7 +10,7 @@ const initialState = {
   blitzList: [],
 }
 
-export const webApiReducer = (state =  initialState, action) => {
+const webApiReducer = (state = initialState, action) => {
   // let newState = { ...state };
   switch (action.type) {
 
@@ -18,3 +18,5 @@ export const webApiReducer = (state =  initialState, action) => {
       return state;
   }
 }
+
+export default webApiReducer;
