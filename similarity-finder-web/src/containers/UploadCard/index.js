@@ -3,6 +3,7 @@ import './index.css';
 import { connect } from 'react-redux';
 import { cancelUpload } from '../../store/actions';
 import $ from 'jquery';
+import { tooltip } from 'bootstrap';
 
 class UploadCard extends React.Component {
 
