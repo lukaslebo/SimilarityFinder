@@ -2,8 +2,6 @@ import React from 'react';
 import './index.css';
 import { connect } from 'react-redux';
 import { cancelUpload } from '../../store/actions';
-import $ from 'jquery';
-import { tooltip } from 'bootstrap';
 
 class UploadCard extends React.Component {
 
@@ -15,9 +13,10 @@ class UploadCard extends React.Component {
   }
 
   selectFiles = (e) => {
-    console.log(e.target.files);
+    let files = e.target.files;
+    files = window.$.map(files, (value, index) => value);
     this.setState({
-      fileList: e.target.files,
+      fileList: files,
     });
   }
 
@@ -32,6 +31,11 @@ class UploadCard extends React.Component {
     }
   }
 
+  tooltip = () => {
+    let filenames = this.state.fileList.map(el => el.name);
+    return filenames.join("\n");
+  }
+
   upload = () => {
     console.log('upload files ...');
   }
@@ -41,16 +45,19 @@ class UploadCard extends React.Component {
   }
 
   componentDidMount = () => {
-    $(() => {
-      $('[data-toggle="tooltip"]').tooltip();
-    });
+    window.$('[data-toggle="tooltip"]').tooltip();
+  }
+
+  componentDidUpdate() {
+    console.log('updated component');
+    window.$('[data-toggle="tooltip"]').tooltip();
   }
 
   render() {
     return (
       <div className="dimmer">
         <div className="uploadcard">
-          <label htmlFor="file-upload" className="btn btn-outline-primary">
+          <label className="btn btn-outline-primary">
             <input 
               id="file-upload" 
               type="file" accept=".txt,.pdf" 
@@ -60,15 +67,15 @@ class UploadCard extends React.Component {
             />
             Browse
           </label>
-          <a 
-            data-toggle="tooltip" 
-            data-placement="bottom"
-            title="dada"
-            data-original-title="Tooltip on bottom" 
-            className="file-list"
-          >
-            { this.fileList() }
-          </a>
+          <div className="file-list">
+            <a 
+              data-toggle="tooltip" 
+              data-placement="bottom"
+              title={ this.tooltip() }
+            >
+              { this.fileList() }
+            </a>
+          </div>
           <button className="btn btn-outline-primary upload" onClick={ this.cancleUpload }>Cancel</button>
           <button className="btn btn-outline-primary cancel" onClick={ this.upload }>Upload</button>
         </div>

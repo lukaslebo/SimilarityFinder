@@ -35,10 +35,15 @@
 
 .file-list {
   display: block;
+  width: auto;
   text-decoration: none;
   color: black;
 }
 
-.file-list + .tooltip > .tooltip-inner {
+.tooltip > .tooltip-inner {
   background-color: rgba(0, 0, 0, 0.6);
+}
+
+.tooltip.bs-tether-element-attached-top .tooltip-inner::before {
+  border-bottom-color:rgba(0, 0, 0, 0.6);
 }
