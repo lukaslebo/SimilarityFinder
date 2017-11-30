@@ -9,9 +9,7 @@
 }
 
 .uploadcard {
-  /* position: absolute;
-  top: calc(50vh - 100px);
-  left: calc(50vw - 200px); */
+  position: relative;
   z-index: 2;
   height: 200px;
   width: 400px;
@@ -20,8 +18,27 @@
   border: 1px solid blue;
   border-radius: 5px;
   background: white;
+  padding: 10px;
 }
 
-.uploadcard button {
-  
+.btn.upload {
+  position: absolute;
+  bottom: 10px;
+  left: 105px;
+}
+
+.btn.cancel {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.file-list {
+  display: block;
+  text-decoration: none;
+  color: black;
+}
+
+.file-list + .tooltip > .tooltip-inner {
+  background-color: rgba(0, 0, 0, 0.6);
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import './index.css';
 import { connect } from 'react-redux';
 import { cancelUpload } from '../../store/actions';
+import $ from 'jquery';
 
 class UploadCard extends React.Component {
 
@@ -22,30 +23,11 @@ class UploadCard extends React.Component {
   fileList = () => {
     switch(this.state.fileList.length) {
       case 0:
-        return (
-          <div>
-            No Files Selected
-          </div>
-        );
+        return "No Files Selected";
       case 1:
-        return (
-          <div>
-            { this.state.fileList[0].name }
-          </div>
-        );
+        return this.state.fileList[0].name;
       default:
-        let tooltip = "";
-        for (let file of this.state.fileList) {
-          if (tooltip.length > 0) {
-            tooltip += "\n";
-          }
-          tooltip += file.name
-        }
-        return (
-          <div title={ tooltip }>
-            { this.state.fileList.length } Files selected
-          </div>
-        );
+        return `${ this.state.fileList.length } Files selected`;
     }
   }
 
@@ -55,6 +37,12 @@ class UploadCard extends React.Component {
 
   cancleUpload = () => {
     this.props.dispatch(cancelUpload());
+  }
+
+  componentDidMount = () => {
+    $(() => {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
   }
 
   render() {
@@ -71,9 +59,17 @@ class UploadCard extends React.Component {
             />
             Browse
           </label>
-          { this.fileList() }
-          <button className="btn btn-outline-primary" onClick={ this.upload }>Upload</button>
-          <button className="btn btn-outline-primary" onClick={ this.cancleUpload }>Cancel</button>
+          <a 
+            data-toggle="tooltip" 
+            data-placement="bottom"
+            title="dada"
+            data-original-title="Tooltip on bottom" 
+            className="file-list"
+          >
+            { this.fileList() }
+          </a>
+          <button className="btn btn-outline-primary upload" onClick={ this.cancleUpload }>Cancel</button>
+          <button className="btn btn-outline-primary cancel" onClick={ this.upload }>Upload</button>
         </div>
       </div>
     );
