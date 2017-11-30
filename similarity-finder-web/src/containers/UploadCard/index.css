@@ -35,13 +35,18 @@
 
 .file-list {
   display: block;
-  width: auto;
   text-decoration: none;
   color: black;
 }
 
+.file-list a {
+  display: inline-block;
+  max-width: 380px;
+}
+
 .tooltip > .tooltip-inner {
   background-color: rgba(0, 0, 0, 0.6);
+  max-width: 1000px;
 }
 
 .tooltip.bs-tether-element-attached-top .tooltip-inner::before {

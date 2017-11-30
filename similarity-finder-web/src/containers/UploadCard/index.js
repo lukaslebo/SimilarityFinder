@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.css';
 import { connect } from 'react-redux';
-import { cancelUpload } from '../../store/actions';
+import { closeUpload, fileUpload } from '../../store/actions';
 
 class UploadCard extends React.Component {
 
@@ -33,15 +33,15 @@ class UploadCard extends React.Component {
 
   tooltip = () => {
     let filenames = this.state.fileList.map(el => el.name);
-    return filenames.join("\n");
+    return filenames.join("<br/>");
   }
 
   upload = () => {
-    console.log('upload files ...');
+    this.props.dispatch(fileUpload(this.state.fileList));
   }
 
   cancleUpload = () => {
-    this.props.dispatch(cancelUpload());
+    this.props.dispatch(closeUpload());
   }
 
   componentDidMount = () => {
@@ -49,7 +49,6 @@ class UploadCard extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('updated component');
     window.$('[data-toggle="tooltip"]').tooltip();
   }
 
@@ -71,7 +70,8 @@ class UploadCard extends React.Component {
             <a 
               data-toggle="tooltip" 
               data-placement="bottom"
-              title={ this.tooltip() }
+              data-original-title={ this.tooltip() }
+              data-html
             >
               { this.fileList() }
             </a>

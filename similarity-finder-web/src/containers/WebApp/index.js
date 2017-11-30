@@ -11,8 +11,16 @@ import SummaryScreen from '../SummaryScreen';
 import Footer from '../Footer';
 import UploadCard from '../UploadCard';
 
+import { getNewUser } from '../../store/actions';
+
 
 class WebApp extends React.Component {
+
+  componentDidMount = () => {
+    if (!this.isLoggedin) {
+      this.props.dispatch(getNewUser());
+    }
+  }
 
   render() {
     let overlay = null;
@@ -42,6 +50,7 @@ class WebApp extends React.Component {
 
 const mapStateToProps = (state) => ({
   ...state.displayReducer,
+  ...state.webApiReducer,
 });
 
 export default connect(mapStateToProps)(WebApp);
