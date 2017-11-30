@@ -33,10 +33,10 @@ public class UserController {
 		return response;
 	}
 	
-	@GetMapping("/{id}")
-	public Map<String, Object> getUserById(@PathVariable String id) {
+	@GetMapping("/{userId}")
+	public Map<String, Object> getUserById(@PathVariable String userId) {
 		Map<String, Object> response = new HashMap<>();
-		User user = this.userService.findById(id);
+		User user = this.userService.findById(userId);
 		if (user == null) {
 			response.put("user_exists", false);
 		}
@@ -48,10 +48,10 @@ public class UserController {
 		return response;
 	}
 	
-	@PutMapping("/{id}")
-	public Map<String, Object> refreshExpirationPeriod(@PathVariable String id) {
+	@PutMapping("/{userId}")
+	public Map<String, Object> refreshExpirationPeriod(@PathVariable String userId) {
 		Map<String, Object> response = new HashMap<>();
-		User user = this.userService.findById(id);
+		User user = this.userService.findById(userId);
 		if (user == null) {
 			response.put("user_exists", false);
 		}

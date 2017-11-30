@@ -1,5 +1,7 @@
 package ch.propulsion.similarityfinder.dbUtils;
 
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -35,7 +37,9 @@ public class DataBaseLoader implements ApplicationRunner {
 	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-			
+		File uploadDir = new File("upload-dir");
+		uploadDir.mkdir();
+		
 //		User user = this.userService.save(new User());
 //		String userId = user.getId();
 //		
