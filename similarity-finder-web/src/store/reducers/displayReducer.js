@@ -1,4 +1,4 @@
-import { ADD_FILE, CANCEL_UPLOAD } from '../actions/types';
+import { ADD_FILE, CLOSE_UPLOAD } from '../actions/types';
 
 const initialState = {
   showUploadCard: false,
@@ -16,7 +16,7 @@ const displayReducer = (state = initialState, action) => {
       newState.frame = action.payload.frame;
       newState.showUploadCard = true;
       return newState;
-    case CANCEL_UPLOAD:
+    case CLOSE_UPLOAD:
       return initialState;
     default:
       return state;

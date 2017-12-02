@@ -1,4 +1,4 @@
-import { ADD_FILE, CANCEL_UPLOAD, SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, REMOVE_DOCUMENT, REMOVE_RESOURCE } from './types';
+import { ADD_FILE, CLOSE_UPLOAD, SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, REMOVE_DOCUMENT, REMOVE_RESOURCE } from './types';
 
 export const addButtonPressed = (frame) => ({
   type: ADD_FILE,
@@ -6,7 +6,7 @@ export const addButtonPressed = (frame) => ({
 })
 
 export const closeUpload = () => ({
-  type: CANCEL_UPLOAD,
+  type: CLOSE_UPLOAD,
 })
 
 export const setNewUser = (res) => ({
@@ -99,6 +99,7 @@ export const docRemove = (suffix = '/removeDocument') => {
       case '/removeResource':
         dispatch(removeResource());
         break;
+      default:
     }
   }
 }

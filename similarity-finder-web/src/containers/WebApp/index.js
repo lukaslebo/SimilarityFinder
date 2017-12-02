@@ -17,7 +17,13 @@ import { getNewUser } from '../../store/actions';
 class WebApp extends React.Component {
 
   componentDidMount = () => {
-    if (!this.isLoggedin) {
+    if (!this.props.isLoggedin) {
+      this.props.dispatch(getNewUser());
+    }
+  }
+
+  componentDidUpdate = () => {
+    if (!this.props.isLoggedin) {
       this.props.dispatch(getNewUser());
     }
   }
@@ -33,12 +39,12 @@ class WebApp extends React.Component {
         <SummaryScreen id="topleft"/>
         <RunButton id="topright"/>
         <div id="leftframe">
-          <RemoveButton frame="left"/><AddButton frame="left"/>
-          <TextFrame/>
+          <RemoveButton/><AddButton/>
+          <TextFrame id="left"/>
         </div>
         <div id="rightframe">
-          <RemoveButton frame="right"/><AddButton frame="right"/>
-          <TextFrame/>
+          <RemoveButton/><AddButton/>
+          <TextFrame id="right"/>
         </div>
         <Footer id="footer"/>
         { overlay }

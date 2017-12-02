@@ -5,6 +5,8 @@ html {
 body {
   margin: 0;
   padding: 0;
+  min-width: 800px;
+  min-height: 670px;
 }
 
 .btn-outline-primary {
