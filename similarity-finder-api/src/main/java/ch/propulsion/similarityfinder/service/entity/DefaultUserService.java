@@ -1,4 +1,4 @@
-package ch.propulsion.similarityfinder.service;
+package ch.propulsion.similarityfinder.service.entity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -69,6 +69,10 @@ public class DefaultUserService implements UserService {
 	@Override
 	public void setDocument(String userId, Document document) {
 		User user = this.userRepository.findById(userId);
+		if (user.getDocument() != null) {
+			removeDocument(userId);
+		}
+		document = this.documentRepository.save(document);
 		user.setDocument(document);
 	}
 
@@ -87,6 +91,7 @@ public class DefaultUserService implements UserService {
 	@Override
 	public void addResource(String userId, Document document) {
 		User user = this.userRepository.findById(userId);
+		document = this.documentRepository.save(document);
 		user.addResource(document.getId(), document);
 	}
 
@@ -101,7 +106,9 @@ public class DefaultUserService implements UserService {
 	@Override
 	public void parseAll(String userId) {
 		User user = this.userRepository.findById(userId);
-		user.getDocument().parse();
+		if (user.getDocument() != null) {
+			user.getDocument().parse();
+		}
 		user.getResources().forEach((key, doc) -> doc.parse());
 	}
 

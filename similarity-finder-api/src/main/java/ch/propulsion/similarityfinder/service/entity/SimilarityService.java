@@ -1,4 +1,4 @@
-package ch.propulsion.similarityfinder.service;
+package ch.propulsion.similarityfinder.service.entity;
 
 import java.util.List;
 
