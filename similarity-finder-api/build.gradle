@@ -44,6 +44,10 @@ dependencies {
 	
 	compile('io.jsonwebtoken:jjwt:0.7.0')
 	
+	compile('commons-io:commons-io:2.6')
+	
+	compile('org.apache.pdfbox:pdfbox:2.0.8')
+	
 	compile('org.projectlombok:lombok')
 	compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonDateTimeVersion}")
 	compile("org.hibernate:hibernate-java8:${hibernateVersion}")
