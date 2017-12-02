@@ -3,23 +3,24 @@ import './index.css';
 
 class Footer extends React.Component {
 
-  // constructor(props) {
-  //   super(props);
-  // }
+  pd = (e) => {
+    e.preventDefault();
+  }
 
   render() {
     return (
       <div id={ this.props.id }>
         <ul className="footer">
-          <li><a href="">Author</a></li>
+          <li><a href="" onClick={ this.pd }>Author</a></li>
           <li>|</li>
-          <li><a href="">Description</a></li>
+          <li><a href="" onClick={ this.pd }>Description</a></li>
           <li>|</li>
-          <li><a href="">Contact</a></li>
+          <li><a href="" onClick={ this.pd }>Contact</a></li>
         </ul>
       </div>
     );
   }
+
 }
 
 

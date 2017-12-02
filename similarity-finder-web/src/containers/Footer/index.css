@@ -11,7 +11,7 @@
   float: right;
 }
 
-a {
+a, a:focus {
   text-decoration: none;
   color: inherit;
   font-family: inherit;
