@@ -37,7 +37,18 @@ class UploadCard extends React.Component {
   }
 
   upload = () => {
-    this.props.dispatch(fileUpload(this.state.fileList));
+    let apiSuffix;
+    switch(this.props.frame) {
+      case "left":
+        apiSuffix = "/setDoc";
+        break;
+      case "right":
+       apiSuffix = "/addResource";
+       break;
+      default:
+       apiSuffix = undefined;
+    }
+    this.props.dispatch(fileUpload(this.state.fileList, apiSuffix));
   }
 
   cancleUpload = () => {

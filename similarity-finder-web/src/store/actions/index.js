@@ -52,18 +52,14 @@ export const fileUpload = (files, suffix = '/setDoc') => {
     const baseURL = getState().webApiReducer.apiBaseUrl;
     const userId = getState().webApiReducer.userId;
     const URL =  baseURL + '/api/document/' + userId + suffix;
-    // const headers = new Headers({'Content-Type': 'multipart/form-data'});
     let formData = new FormData();
     for (let file of files) {
-      console.log("appending file " + file.name);
-      formData.append("file", file);
+      formData.append('file', file);
     }
     const config = {
       method: 'POST',
-      // headers: headers,
       body: formData,
     };
-    console.log(config.body);
     const response = await fetch(URL, config);
     const res = await response.json();
     console.log(res);
