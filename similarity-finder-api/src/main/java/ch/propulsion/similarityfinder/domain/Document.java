@@ -28,6 +28,9 @@ public class Document {
 	@Id
 	private String id;
 	
+	@Column(name="file_name", nullable=false, length=255)
+	private String fileName;
+	
 	@Column(name="date_created")
 	private LocalDateTime dateCreated = LocalDateTime.now();
 	
@@ -50,13 +53,14 @@ public class Document {
 	@Column(name="is_parsed", nullable=false)
 	private boolean isParsed = false;
 	
-	public Document(String id, String content) {
+	public Document(String id, String content, String fileName) {
 		this.id = id;
 		this.content = content;
+		this.fileName = fileName;
 	}
 	
-	public Document(String content) {
-		this(null, content);
+	public Document(String content, String fileName) {
+		this(null, content, fileName);
 	}
 	
 	@PrePersist
@@ -74,6 +78,7 @@ public class Document {
 		if (this.isParsed || this.content == null || this.content.length() == 0) {
 			return;
 		}
+		this.content = this.content.replaceAll("[\\s]{2,}", " ");
 		this.parsedDocument_punctuated = Arrays.asList(this.content.split("\\s"));
 		this.parsedDocument = Arrays.asList(this.content.replaceAll("\\p{Punct}", "").split("\\s"));
 		if (this.parsedDocument.size() == 0) {
