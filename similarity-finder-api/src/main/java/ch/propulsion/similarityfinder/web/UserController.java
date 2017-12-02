@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ch.propulsion.similarityfinder.domain.User;
-import ch.propulsion.similarityfinder.service.UserService;
+import ch.propulsion.similarityfinder.service.entity.UserService;
 
 @RestController
 @RequestMapping(path="/api/user")
