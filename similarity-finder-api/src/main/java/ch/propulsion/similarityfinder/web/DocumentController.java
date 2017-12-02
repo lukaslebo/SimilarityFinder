@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -78,12 +79,12 @@ public class DocumentController {
 		return response;
 	}
 	
-	@PostMapping("/{userId}/removeDoc")
+	@DeleteMapping("/{userId}/removeDocument")
 	public Map<String, Object> removeDocument(@PathVariable String userId) {
 		Map<String, Object> response = new HashMap<>();
 		userService.removeDocument(userId);
 		response.put("status", "ok");
-		response.put("document", userService.getDocument(userId));
+//		response.put("document", userService.getDocument(userId));
 		return response;
 	}
 	
@@ -116,12 +117,12 @@ public class DocumentController {
 		return response;
 	}
 	
-	@PostMapping("/{userId}/removeResource/{resourceId}")
+	@DeleteMapping("/{userId}/removeResource/{resourceId}")
 	public Map<String, Object> removeResource(@PathVariable String userId, @PathVariable String resourceId) {
 		Map<String, Object> response = new HashMap<>();
 		userService.removeResource(userId, resourceId);
 		response.put("status", "ok");
-		response.put("resources", userService.getResources(userId));
+//		response.put("resources", userService.getResources(userId));
 		return response;
 	}
 	
