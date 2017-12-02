@@ -22,6 +22,7 @@ public class DefaultStorageService implements StorageService {
 	 
 	@Override
     public void store(MultipartFile file) {
+		rootLocation.toFile().mkdir();
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             if (file.isEmpty()) {
@@ -42,8 +43,7 @@ public class DefaultStorageService implements StorageService {
     public Stream<Path> loadAll() {
         try {
             return Files.walk(this.rootLocation, 1)
-                    .filter(path -> !path.equals(this.rootLocation))
-                    .map(path -> this.rootLocation.relativize(path));
+            			.filter(path -> path.toFile().isFile());
         }
         catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
@@ -88,6 +88,5 @@ public class DefaultStorageService implements StorageService {
             throw new StorageException("Could not initialize storage", e);
         }
     }
-
     
 }
