@@ -1,4 +1,4 @@
-import { ADD_FILE, CANCEL_UPLOAD, SET_NEW_USER, REFRESH_USER } from './types';
+import { ADD_FILE, CANCEL_UPLOAD, SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, REMOVE_DOCUMENT, REMOVE_RESOURCE } from './types';
 
 export const addButtonPressed = (frame) => ({
   type: ADD_FILE,
@@ -62,6 +62,65 @@ export const fileUpload = (files, suffix = '/setDoc') => {
     };
     const response = await fetch(URL, config);
     const res = await response.json();
-    console.log(res);
+    switch (suffix) {
+      case '/setDoc':
+        dispatch(setDocument(res));
+        break;
+      case '/addResource':
+        dispatch(setResources(res));
+        break;
+      default:
+    }
   }
 }
+
+export const docRemove = (suffix = '/removeDocument') => {
+  return async (dispatch, getState) => {
+    const state = getState().webApiReducer;
+    const resourceId = state.resources[state.resourceIndex].id;
+    const baseURL = state.apiBaseUrl;
+    const userId = state.userId;
+    let URL = baseURL + '/api/document/' + userId + suffix;
+    if (suffix === '/removeResource') {
+      URL += '/' + resourceId;
+    }
+    const config = {
+      method: 'DELETE',
+    }
+    const response = await fetch(URL, config);
+    const res = await response.json();
+    if (res.status !== 'ok') {
+      return;
+    }
+    switch (suffix) {
+      case '/removeDocument':
+        dispatch(removeDocument());
+        break;
+      case '/removeResource':
+        dispatch(removeResource());
+        break;
+    }
+  }
+}
+
+export const setDocument = (res) => ({
+  type: SET_DOCUMENT,
+  payload: {
+    ...res,
+  },
+})
+
+export const setResources = (res) => ({
+  type: SET_RESOURCES,
+  payload: {
+    ...res,
+  },
+})
+
+export const removeDocument = () => ({
+  type: REMOVE_DOCUMENT,
+})
+
+export const removeResource = () => ({
+  type: REMOVE_RESOURCE,
+})

@@ -37,6 +37,9 @@ class UploadCard extends React.Component {
   }
 
   upload = () => {
+    if (this.state.fileList.length === 0) {
+      return;
+    }
     let apiSuffix;
     switch(this.props.frame) {
       case "left":
