@@ -62,6 +62,9 @@ export const fileUpload = (files, suffix = '/setDoc') => {
     };
     const response = await fetch(URL, config);
     const res = await response.json();
+    if (res.status !== 'ok') {
+      return;
+    }
     switch (suffix) {
       case '/setDoc':
         dispatch(setDocument(res));
@@ -71,13 +74,16 @@ export const fileUpload = (files, suffix = '/setDoc') => {
         break;
       default:
     }
+    dispatch(closeUpload());
   }
 }
 
 export const docRemove = (suffix = '/removeDocument') => {
   return async (dispatch, getState) => {
     const state = getState().webApiReducer;
-    const resourceId = state.resources[state.resourceIndex].id;
+    if (state.resources.length > 0) {
+      var resourceId = state.resources[state.resourceIndex].id;
+    }
     const baseURL = state.apiBaseUrl;
     const userId = state.userId;
     let URL = baseURL + '/api/document/' + userId + suffix;
