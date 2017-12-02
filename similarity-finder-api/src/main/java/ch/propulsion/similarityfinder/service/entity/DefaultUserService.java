@@ -49,6 +49,9 @@ public class DefaultUserService implements UserService {
 	@Override
 	public void deleteById(String id) {
 		User user = this.userRepository.findById(id);
+		if (user == null) {
+			return;
+		}
 		String userId = user.getId();
 		List<String> resourceIds = user.getResourceIds().stream().collect(Collectors.toList());
 		this.removeDocument(userId);
@@ -69,6 +72,9 @@ public class DefaultUserService implements UserService {
 	@Override
 	public void setDocument(String userId, Document document) {
 		User user = this.userRepository.findById(userId);
+		if (user == null) {
+			return;
+		}
 		if (user.getDocument() != null) {
 			removeDocument(userId);
 		}
@@ -79,6 +85,9 @@ public class DefaultUserService implements UserService {
 	@Override
 	public void removeDocument(String userId) {
 		User user = this.userRepository.findById(userId);
+		if (user == null) {
+			return;
+		}
 		String documentId = user.getDocument().getId();
 		List<String> resourceIds = user.getResourceIds().stream().collect(Collectors.toList());
 		user.removeDocument();
@@ -91,6 +100,9 @@ public class DefaultUserService implements UserService {
 	@Override
 	public void addResource(String userId, Document document) {
 		User user = this.userRepository.findById(userId);
+		if (user == null) {
+			return;
+		}
 		document = this.documentRepository.save(document);
 		user.addResource(document.getId(), document);
 	}
@@ -98,6 +110,9 @@ public class DefaultUserService implements UserService {
 	@Override
 	public void removeResource(String userId, String resourceId) {
 		User user = this.userRepository.findById(userId);
+		if (user == null) {
+			return;
+		}
 		user.removeResource(resourceId);
 		this.similarityRepository.deleteAllByResourceId(resourceId);
 		this.documentRepository.deleteById(resourceId);
@@ -106,6 +121,9 @@ public class DefaultUserService implements UserService {
 	@Override
 	public void parseAll(String userId) {
 		User user = this.userRepository.findById(userId);
+		if (user == null) {
+			return;
+		}
 		if (user.getDocument() != null) {
 			user.getDocument().parse();
 		}
@@ -115,18 +133,27 @@ public class DefaultUserService implements UserService {
 	@Override
 	public void addSimilarity(String userId, Similarity similarity) {
 		User user = this.userRepository.findById(userId);
+		if (user == null) {
+			return;
+		}
 		user.addSimilarity(similarity);
 	}
 
 	@Override
 	public List<String> getResourceIds(String userId) {
 		User user = this.userRepository.findById(userId);
+		if (user == null) {
+			return null;
+		}
 		return user.getResourceIds().stream().collect(Collectors.toList());
 	}
 
 	@Override
 	public List<Document> getResources(String userId) {
 		User user = this.userRepository.findById(userId);
+		if (user == null) {
+			return null;
+		}
 		List<String> resourceIds = user.getResourceIds().stream().collect(Collectors.toList());
 		List<Document> resources= new ArrayList<>();
 		for (String key : resourceIds) {
@@ -138,6 +165,9 @@ public class DefaultUserService implements UserService {
 	@Override
 	public Document getDocument(String userId) {
 		User user = this.userRepository.findById(userId);
+		if (user == null) {
+			return null;
+		}
 		return user.getDocument();
 	}
 
