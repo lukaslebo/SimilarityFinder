@@ -3,15 +3,17 @@ import './index.css';
 import { connect } from 'react-redux';
 import Moment from 'moment';
 
-import { refreshUser } from '../../store/actions';
+// import { refreshUser } from '../../store/actions';
 
 class RunButton extends React.Component {
 
   run = () => {
-    var expiresAt = new Moment(this.props.expiresAt.slice(0, 3).join("-").concat(" ",this.props.expiresAt.slice(3, 6).join(":")).concat(".",this.props.expiresAt[6]));
+    let dateString = this.props.expiresAt.slice(0, 3).join("-").concat(" ",this.props.expiresAt.slice(3, 6).join(":")).concat(".",(this.props.expiresAt[6]+"").slice(0,3));
+    let date = new Date(dateString);
+    let expiresAt = new Moment(date.toISOString());
     console.log(this.props.isLoggedin);
     console.log(this.props.userId);
-    console.log("expires in " + expiresAt.toNow(true));
+    console.log(`expires at ${expiresAt.toString()} (in ${expiresAt.toNow(true)})`);
     // this.props.dispatch(refreshUser());
   }
 
