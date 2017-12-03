@@ -53,8 +53,8 @@ public class DefaultUserService implements UserService {
 			return;
 		}
 		String userId = user.getId();
-		List<String> resourceIds = user.getResourceIds().stream().collect(Collectors.toList());
 		this.removeDocument(userId);
+		List<String> resourceIds = user.getResourceIds().stream().collect(Collectors.toList());
 		for (String resourceId : resourceIds) {
 			this.removeResource(userId, resourceId);
 		}
@@ -85,7 +85,7 @@ public class DefaultUserService implements UserService {
 	@Override
 	public void removeDocument(String userId) {
 		User user = this.userRepository.findById(userId);
-		if (user == null) {
+		if (user == null || user.getDocument() == null) {
 			return;
 		}
 		String documentId = user.getDocument().getId();
