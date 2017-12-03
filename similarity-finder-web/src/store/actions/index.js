@@ -96,7 +96,6 @@ export const docRemove = (suffix = '/removeDocument') => {
     }
     const response = await fetch(URL, config);
     const res = await response.json();
-    console.log(res);
     if (res.status !== 'ok') {
       return;
     }
