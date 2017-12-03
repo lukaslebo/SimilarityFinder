@@ -1,17 +1,5 @@
 .summaryscreen {
-  border: 1px solid rgba(0,0,0,0.15);
-  border-radius: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 5px;
-  background: white;
-}
-
-.summaryscreen:hover {
-  border-color: blue;
-  transition: 0.5s;
-}
-
-.summaryscreen:not(:hover) {
-  transition: 0.5s;
 }

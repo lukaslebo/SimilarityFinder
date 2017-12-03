@@ -8,24 +8,8 @@
   width: 100%;
 }
 
-.btn-wide {
-  width: calc(100% - 35.59px);
-}
-
 .textframe {
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 5px;
   padding: 5px;
   height: calc(100% - 43px);
   overflow: auto;
-  background: rgba(255, 255, 255, 0.8);
-}
-
-.textframe:hover {
-  border-color: blue;
-  transition: 0.5s;
-}
-
-.textframe:not(:hover) {
-  transition: 0.5s;
 }

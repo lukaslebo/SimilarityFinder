@@ -8,13 +8,9 @@
 
 .btn-description span {
   font-style: italic;
+  transition: 0.5s;
 }
 
-.btn-description span:hover {
+.btn-description:hover span {
   color: red;
-  transition: 0.5s;
-}
-
-.btn-description span:not(:hover) {
-  transition: 0.5s;
 }

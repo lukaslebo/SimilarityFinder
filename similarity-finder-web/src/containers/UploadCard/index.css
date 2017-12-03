@@ -35,13 +35,12 @@
 
 .file-list {
   display: block;
-  text-decoration: none;
-  color: black;
 }
 
-.file-list a {
+.auto-width {
   display: inline-block;
   max-width: 380px;
+  overflow: auto;
 }
 
 .tooltip > .tooltip-inner {

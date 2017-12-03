@@ -12,13 +12,14 @@ const initialState = {
   resources: [],
   resourceIndex: null,
   similarities: [],
+  isProcessed: false,
 }
 
 const webApiReducer = (state = initialState, action) => {
   let newState = { ...state };
 
   if (newState.isLoggedin && newState.expiresAt.isBefore(new Moment())) {
-    console.log('logout...');
+    console.log('Account is expired.');
     return initialState;
   }
 
@@ -38,6 +39,7 @@ const webApiReducer = (state = initialState, action) => {
 
     case SET_DOCUMENT:
       newState.document = action.payload.document;
+      newState.isProcessed = false;
       return newState;
 
     case SET_RESOURCES:
@@ -56,6 +58,7 @@ const webApiReducer = (state = initialState, action) => {
           }
         })
       }
+      newState.isProcessed = false;
       return newState;
 
     case REMOVE_DOCUMENT:

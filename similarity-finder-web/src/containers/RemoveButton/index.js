@@ -27,7 +27,7 @@ class RemoveButton extends React.Component {
   render() {
     return (
       <div id={ this.props.id }>
-        <button className="btn btn-outline-primary remove-button float-right" onClick={ this.remove }>Remove</button>
+        <button className="btn btn-outline-primary remove-button float-right clickable" onClick={ this.remove }>Remove</button>
       </div>
     );
   }

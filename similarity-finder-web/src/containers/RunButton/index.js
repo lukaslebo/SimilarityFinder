@@ -13,11 +13,19 @@ class RunButton extends React.Component {
     // this.props.dispatch(refreshUser());
   }
 
+  hover = () => {
+    window.$('.btn-description>span').css('color','red');
+  }
+
+  unhover = () => {
+    window.$('.btn-description>span').css('color','');
+  }
+
   render() {
     return (
       <div id={ this.props.id }>
         <p className="btn-description">Find <span>Similarities</span></p>
-        <button type="button" id="run-button" className="btn btn-outline-primary" onClick={ this.run }>Run</button>
+        <button id="run-button" className="btn btn-outline-primary clickable" onClick={ this.run } onMouseEnter={ this.hover } onMouseLeave={ this.unhover }>Run</button>
       </div>
     );
   }

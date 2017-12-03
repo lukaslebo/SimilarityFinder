@@ -1,6 +1,6 @@
 import React from 'react';
-import './index.css';
 import { connect } from 'react-redux';
+
 import { addButtonPressed } from '../../store/actions';
 
 class AddButton extends React.Component {
@@ -22,7 +22,7 @@ class AddButton extends React.Component {
   render() {
     return (
       <div id={ this.props.id }>
-        <button className="btn btn-outline-primary add-button float-right" onClick={ this.addFile }>Add</button>
+        <button className="btn btn-outline-primary float-right clickable" onClick={ this.addFile }>Add</button>
       </div>
     );
   }

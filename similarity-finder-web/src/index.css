@@ -9,6 +9,49 @@ body {
   min-height: 670px;
 }
 
+/* Primary styles */
+
+.clickable {
+  cursor: pointer;
+}
+
+.primary-outline {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  transition: 0.5s;
+}
+
+.primary-outline:hover {
+  border-color: blue;
+  transition: 0.5s;
+}
+
+.button-like {
+  height: 38px;
+  padding: 8px;
+  text-align: center;
+}
+
+.leftside-wide {
+  width: calc(100% - 35.59px);
+}
+
+/* Fancy Hoverables */
+
+.blue-hover, .red-hover {
+  transition: 0.3s;
+}
+
+.blue-hover:hover {
+  color: blue;
+}
+
+.red-hover:hover {
+  color: red;
+}
+
+/* Overriding Bootstrap Button */
+
 .btn-outline-primary {
   border-color: blue;
   color: blue;

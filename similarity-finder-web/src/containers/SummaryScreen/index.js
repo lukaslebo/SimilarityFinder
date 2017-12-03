@@ -1,20 +1,31 @@
 import React from 'react';
 import './index.css';
+import { connect } from 'react-redux';
 
 class SummaryScreen extends React.Component {
 
-  // constructor(props) {
-  //   super(props);
-  // }
+  summaryText = () => {
+    const n = this.props.similarities.length;
+    if (n === 0) {
+      return 'No similarities detected.';
+    }
+    else {
+      return `${ n } similarities detected.`;
+    }
+  }
 
   render() {
     return (
-      <div id={ this.props.id } className="summaryscreen">
-        Summary
+      <div id={ this.props.id } className="summaryscreen primary-outline">
+        { this.summaryText() }
       </div>
     );
   }
+
 }
 
+const mapStateToProps = (state) => ({
+  ...state.webApiReducer,
+});
 
-export default SummaryScreen;
+export default connect(mapStateToProps)(SummaryScreen);
