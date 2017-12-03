@@ -2,9 +2,35 @@ import React from 'react';
 import './index.css';
 import { connect } from 'react-redux';
 
+import { truncateByWidth } from '../../stringUtils';
+
 import { selectResource } from '../../store/actions';
 
 class TextFrame extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      windowsWidth: window.innerWidth,
+    };
+  }
+
+  resize = () => {
+    if (window.innerWidth === this.state.windowsWidth) {
+      return;
+    }
+    this.setState({
+      windowsWidth: window.innerWidth,
+    });
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.resize)
+  }
+  
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resize)
+  }
 
   documentSelector = () => {
     if (this.props.id === 'left') {
@@ -48,12 +74,32 @@ class TextFrame extends React.Component {
     if (doc === null) {
       return "No file selected.";
     }
-    return doc.fileName;
+    let fileName;
+    if (this.props.id === 'left') {
+      fileName = truncateByWidth(doc.fileName, window.$('.leftside-wide').width()+35.59);
+    }
+    else if (this.props.id === 'right') {
+      fileName = truncateByWidth(doc.fileName, window.$('.leftside-wide').width());
+    }
+    return fileName;
   }
 
   resourceSelector = (e) => {
     const resourceIndex = Number(e.target.getAttribute('data-resource-index'));
     this.props.dispatch(selectResource(resourceIndex));
+  }
+
+  dropdownMenu = () => {
+    if (this.props.resources.length === 0) {
+      return <div className="dropdown-item">No documents.</div>;
+    }
+    else if (this.props.resources.length === 1) {
+      return <div className="dropdown-item">No other documents.</div>;
+    }
+    return this.props.resources.map( (doc, index) => {
+      let fileName = truncateByWidth(doc.fileName, window.$('.leftside-wide').width());
+      return <div key={ index } className="dropdown-item clickable" data-resource-index={ index } onClick={ this.resourceSelector }>{ fileName }</div>;
+    }).filter( (doc, index) => index !== this.props.resourceIndex);
   }
 
   fileDisplay = () => {
@@ -70,9 +116,7 @@ class TextFrame extends React.Component {
           </button>
           <div className="dropdown-menu leftside-wide">
             {
-              this.props.resources.map( (doc, index) => {
-                return <div key={ index } className="dropdown-item clickable" data-resource-index={ index } onClick={ this.resourceSelector }>{ doc.fileName }</div>;
-              })
+              this.dropdownMenu()
             }
             
           </div>

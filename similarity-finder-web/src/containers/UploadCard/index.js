@@ -2,6 +2,8 @@ import React from 'react';
 import './index.css';
 import { connect } from 'react-redux';
 
+import { truncateByWidth } from '../../stringUtils';
+
 import { closeUpload, fileUpload } from '../../store/actions';
 
 class UploadCard extends React.Component {
@@ -26,7 +28,7 @@ class UploadCard extends React.Component {
       case 0:
         return "No Files Selected";
       case 1:
-        return this.state.fileList[0].name;
+        return truncateByWidth(this.state.fileList[0].name, 378);
       default:
         return `${ this.state.fileList.length } Files selected`;
     }
