@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { truncateByWidth } from '../../stringUtils';
 
-import { closeUpload, fileUpload } from '../../store/actions';
+import { closeCard, fileUpload } from '../../store/actions';
 
 class UploadCard extends React.Component {
 
@@ -61,7 +61,7 @@ class UploadCard extends React.Component {
   }
 
   cancleUpload = () => {
-    this.props.dispatch(closeUpload());
+    this.props.dispatch(closeCard());
   }
 
   componentDidMount = () => {

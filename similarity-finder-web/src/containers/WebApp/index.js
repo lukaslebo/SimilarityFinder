@@ -10,6 +10,7 @@ import RunButton from '../RunButton';
 import SummaryScreen from '../SummaryScreen';
 import Footer from '../Footer';
 import UploadCard from '../UploadCard';
+import InfoCard from '../InfoCard';
 
 import { getNewUser } from '../../store/actions';
 
@@ -29,9 +30,12 @@ class WebApp extends React.Component {
   }
 
   render() {
-    let overlay = null;
+    let overlay;
     if (this.props.showUploadCard) {
       overlay = <UploadCard/>;
+    }
+    else if (this.props.showContactCard || this.props.showDescriptionCard || this.props.showAuthorCard) {
+      overlay = <InfoCard/>;
     }
     return (
       <div className="grid-wrapper" >

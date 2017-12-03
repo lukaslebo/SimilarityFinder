@@ -1,6 +1,9 @@
 // displayReducer Types
 export const ADD_FILE = 'ADD_FILE';
-export const CLOSE_UPLOAD = 'CLOSE_UPLOAD';
+export const CONTACT_CARD = 'CONTACT_CARD';
+export const DESCRIPTION_CARD = 'DESCRIPTION_CARD';
+export const AUTHOR_CARD = 'AUTHOR_CARD';
+export const CLOSE_CARD = 'CLOSE_CARD';
 
 // webApiReducer Types
 export const SET_NEW_USER = 'SET_NEW_USER';

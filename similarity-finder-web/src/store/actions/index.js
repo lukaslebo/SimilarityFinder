@@ -1,13 +1,29 @@
-import { ADD_FILE, CLOSE_UPLOAD, SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, 
-  REMOVE_DOCUMENT, REMOVE_RESOURCE, SELECT_RESOURCE } from './types';
+import { ADD_FILE, CLOSE_CARD, SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, 
+  REMOVE_DOCUMENT, REMOVE_RESOURCE, SELECT_RESOURCE, CONTACT_CARD, DESCRIPTION_CARD, AUTHOR_CARD } from './types';
 
 export const addButtonPressed = (frame) => ({
   type: ADD_FILE,
   payload: { frame },
 })
 
-export const closeUpload = () => ({
-  type: CLOSE_UPLOAD,
+export const showInfoCard = (card) => {
+  switch (card) {
+    case 'contact':
+      return cardAction(CONTACT_CARD);
+    case 'description':
+      return cardAction(DESCRIPTION_CARD);
+    case 'author':
+      return cardAction(AUTHOR_CARD);
+    default:
+  }
+}
+
+export const cardAction = (type) => ({
+  type,
+})
+
+export const closeCard = () => ({
+  type: CLOSE_CARD,
 })
 
 export const setNewUser = (res) => ({
@@ -75,7 +91,7 @@ export const fileUpload = (files, suffix = '/setDoc') => {
         break;
       default:
     }
-    dispatch(closeUpload());
+    dispatch(closeCard());
   }
 }
 

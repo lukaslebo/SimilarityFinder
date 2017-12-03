@@ -59,6 +59,18 @@ body {
   text-overflow: ellipsis;
 }
 
+/* Dimmer for Cards */
+
+.dimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(255, 255, 255, 0.8);
+}
+
 /* Overriding Bootstrap Button */
 
 .btn-outline-primary {

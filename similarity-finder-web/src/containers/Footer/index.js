@@ -2,10 +2,13 @@ import React from 'react';
 import './index.css';
 import { connect } from 'react-redux';
 
+import { showInfoCard } from '../../store/actions';
+
 class Footer extends React.Component {
 
   showItem = (e) => {
-    console.log(e.target.getAttribute('data-name'));
+    const itemName = e.target.getAttribute('data-name');
+    this.props.dispatch(showInfoCard(itemName));
   }
 
   render() {
