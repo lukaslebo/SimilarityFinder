@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ch.propulsion.similarityfinder.domain.Document;
 import ch.propulsion.similarityfinder.domain.User;
+import ch.propulsion.similarityfinder.service.entity.UserNotFoundException;
 import ch.propulsion.similarityfinder.service.entity.UserService;
 import ch.propulsion.similarityfinder.service.parser.DocumentParser;
 import ch.propulsion.similarityfinder.service.storage.StorageService;
@@ -40,11 +41,11 @@ public class DocumentController {
 	@GetMapping("/{userId}")
 	public Map<String, Object> getDocuments(@PathVariable String userId) {
 		Map<String, Object> response = new HashMap<>();
-		User user = this.userService.findById(userId);
-		if (user == null) {
-			response.put("user_exists", false);
-		}
-		else {
+		try {
+			User user = this.userService.findById(userId);
+			if (user == null) {
+				throw new UserNotFoundException("User with id: " + userId + " does not exist.");
+			}
 			List<Document> resources = userService.getResources(userId);
 			resources.sort((a, b) -> a.getDateCreated().isBefore(b.getDateCreated()) ? -1 : 1);
 			response.put("user_exists", true);
@@ -52,6 +53,12 @@ public class DocumentController {
 			response.put("expiresAt", user.getExpirationDate());
 			response.put("document", userService.getDocument(userId));
 			response.put("resources", resources);
+		} catch (Exception e) {
+			System.err.println("Error in retrieving documents of user!");
+			System.err.println(e);
+			e.printStackTrace(System.out);
+			response.put("status", "failed");
+			response.put("exception", e);
 		}
 		return response;
 	}
@@ -60,6 +67,10 @@ public class DocumentController {
 	public Map<String, Object> setDocument(@PathVariable String userId, @RequestParam("file") MultipartFile file) {
 		Map<String, Object> response = new HashMap<>();
 		try {
+			User user = this.userService.findById(userId);
+			if (user == null) {
+				throw new UserNotFoundException("User with id: " + userId + " does not exist.");
+			}
 			storageService.store(file);
 			Path pathToFile = storageService.load(file.getOriginalFilename());
 			Document doc = parser.parseFileToDocument(pathToFile);
@@ -82,9 +93,21 @@ public class DocumentController {
 	@DeleteMapping("/{userId}/removeDocument")
 	public Map<String, Object> removeDocument(@PathVariable String userId) {
 		Map<String, Object> response = new HashMap<>();
-		userService.removeDocument(userId);
-		response.put("status", "ok");
-//		response.put("document", userService.getDocument(userId));
+		try {
+			User user = this.userService.findById(userId);
+			if (user == null) {
+				throw new UserNotFoundException("User with id: " + userId + " does not exist.");
+			}
+			userService.removeDocument(userId);
+			response.put("status", "ok");			
+//			response.put("document", userService.getDocument(userId));
+		} catch (Exception e) {
+			System.err.println("Error in removing document.");
+			System.err.println(e);
+			e.printStackTrace(System.out);
+			response.put("status", "failed");
+			response.put("exception", e);
+		}
 		return response;
 	}
 	
@@ -92,6 +115,10 @@ public class DocumentController {
 	public Map<String, Object> addResource(@PathVariable String userId, @RequestParam("file") MultipartFile[] files) {
 		Map<String, Object> response = new HashMap<>();
 		try {
+			User user = this.userService.findById(userId);
+			if (user == null) {
+				throw new UserNotFoundException("User with id: " + userId + " does not exist.");
+			}
 			for (MultipartFile file : files) {
 				storageService.store(file);				
 			}
@@ -120,9 +147,21 @@ public class DocumentController {
 	@DeleteMapping("/{userId}/removeResource/{resourceId}")
 	public Map<String, Object> removeResource(@PathVariable String userId, @PathVariable String resourceId) {
 		Map<String, Object> response = new HashMap<>();
-		userService.removeResource(userId, resourceId);
-		response.put("status", "ok");
-//		response.put("resources", userService.getResources(userId));
+		try {
+			User user = this.userService.findById(userId);
+			if (user == null) {
+				throw new UserNotFoundException("User with id: " + userId + " does not exist.");
+			}
+			userService.removeResource(userId, resourceId);
+			response.put("status", "ok");
+//			response.put("resources", userService.getResources(userId));			
+		} catch (Exception e) {
+			System.err.println("Error in removing a resource.");
+			System.err.println(e);
+			e.printStackTrace(System.out);
+			response.put("status", "failed");
+			response.put("exception", e);
+		}
 		return response;
 	}
 	
