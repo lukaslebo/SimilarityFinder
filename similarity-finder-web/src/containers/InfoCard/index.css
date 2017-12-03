@@ -1,0 +1,47 @@
+.info-card  {
+  display: flex;
+  position: relative;
+  z-index: 2;
+  margin: auto;
+  margin-top: calc(35vh - 100px);
+  border: 1px solid blue;
+  border-radius: 5px;
+  background: white;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact {
+  height: 150px;
+  width: 400px;
+  text-align: center;
+}
+
+.contact p, .contact a {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 3px;
+}
+
+a, a:hover, a:active, a:focus {
+  text-decoration: none;
+}
+
+.description {
+  height: 300px;
+  width: 600px;
+  text-align: justify;
+}
+
+.author {
+  height: 120px;
+  width: 300px;
+  text-align: center;
+}
+
+.btn.close {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
