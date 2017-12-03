@@ -24,8 +24,10 @@ class RunButton extends React.Component {
   render() {
     return (
       <div id={ this.props.id }>
-        <p className="btn-description">Find <span>Similarities</span></p>
-        <button id="run-button" className="btn btn-outline-primary clickable" onClick={ this.run } onMouseEnter={ this.hover } onMouseLeave={ this.unhover }>Run</button>
+        <div className="constrain">
+          <p className="btn-description">Find <span>Similarities</span></p>
+          <button id="run-button" className="btn btn-outline-primary clickable" onClick={ this.run } onMouseEnter={ this.hover } onMouseLeave={ this.unhover }>Run</button>
+        </div>
       </div>
     );
   }

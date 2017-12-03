@@ -62,7 +62,7 @@ class InfoCard extends React.Component {
     return (
       <div>
         <p>
-          Author and Core Contributor:<br/>
+          Author and Core Contributor:<br/><br/>
           Lukas Lebovitz
         </p>
       </div>

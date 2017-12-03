@@ -14,3 +14,7 @@
 .btn-description:hover span {
   color: red;
 }
+
+.constrain {
+  display: inline-block;
+}
