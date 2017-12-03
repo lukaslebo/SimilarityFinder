@@ -33,13 +33,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User {
 	
-	private static Long accountExpirationPeriodInHours = 24L;
+	private static Long accountExpirationPeriodInMinutes = 180L;
 	
 	@Id
 	private String id;
 	
 	@Column(name="expiration_date", nullable=false)
-	private LocalDateTime expirationDate = LocalDateTime.now().plusHours(accountExpirationPeriodInHours);
+	private LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(accountExpirationPeriodInMinutes);
 	
 	@OneToOne
 	private Document document = null;
@@ -88,7 +88,7 @@ public class User {
 	}
 	
 	public void refreshExpirationDate() {
-		this.expirationDate = LocalDateTime.now().plusHours(accountExpirationPeriodInHours);
+		this.expirationDate = LocalDateTime.now().plusMinutes(accountExpirationPeriodInMinutes);
 	}
 	
 }

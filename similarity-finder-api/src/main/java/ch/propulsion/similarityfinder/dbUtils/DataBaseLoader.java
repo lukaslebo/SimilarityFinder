@@ -24,7 +24,7 @@ public class DataBaseLoader implements ApplicationRunner {
 //		this.documentSercice = documentSercice;
 	}
 	
-	@Scheduled(fixedDelay=180*1000)
+	@Scheduled(fixedRate=180*1000)
 	public void deleteExpiredUsers() {
 		System.out.println("Deleting expired users.");
 		this.userService.deleteExpiredUsers();
