@@ -51,6 +51,14 @@ body {
   color: red;
 }
 
+/* Overflow Handling */
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* Overriding Bootstrap Button */
 
 .btn-outline-primary {
