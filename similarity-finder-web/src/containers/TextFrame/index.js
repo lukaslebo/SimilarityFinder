@@ -2,6 +2,8 @@ import React from 'react';
 import './index.css';
 import { connect } from 'react-redux';
 
+import { selectResource } from '../../store/actions';
+
 class TextFrame extends React.Component {
 
   documentSelector = () => {
@@ -49,8 +51,9 @@ class TextFrame extends React.Component {
     return doc.fileName;
   }
 
-  resourceSelector = () => {
-
+  resourceSelector = (e) => {
+    const resourceIndex = Number(e.target.getAttribute('data-resource-index'));
+    this.props.dispatch(selectResource(resourceIndex));
   }
 
   fileDisplay = () => {
@@ -66,7 +69,12 @@ class TextFrame extends React.Component {
             <span className="sr-only">Toggle Dropdown</span>
           </button>
           <div className="dropdown-menu leftside-wide">
-            <div className="dropdown-item clickable" onClick={ this.resourceSelector }>other file</div>
+            {
+              this.props.resources.map( (doc, index) => {
+                return <div key={ index } className="dropdown-item clickable" data-resource-index={ index } onClick={ this.resourceSelector }>{ doc.fileName }</div>;
+              })
+            }
+            
           </div>
         </div>
       );

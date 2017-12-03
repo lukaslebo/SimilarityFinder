@@ -1,4 +1,5 @@
-import { SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, REMOVE_DOCUMENT, REMOVE_RESOURCE } from '../actions/types';
+import { SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, REMOVE_DOCUMENT, 
+  REMOVE_RESOURCE, SELECT_RESOURCE } from '../actions/types';
 import Moment from 'moment';
 
 const API_BASE_URL = 'http://localhost:8080';
@@ -67,14 +68,18 @@ const webApiReducer = (state = initialState, action) => {
 
     case REMOVE_RESOURCE:
       newState.resources = newState.resources.filter( (el, index) => index !== newState.resourceIndex);
-      if (newState.resourceIndex > newState.resources.length) {
-        newState.resourceIndex = newState.SET_RESOURCES.length-1;
+      if (newState.resourceIndex >= newState.resources.length) {
+        newState.resourceIndex = newState.resources.length-1;
       }
       if (newState.resources.length === 0) {
         newState.resourceIndex = null;
       }
       return newState;
-      
+
+    case SELECT_RESOURCE:
+      newState.resourceIndex = action.payload.resourceIndex;
+      return newState;
+
     default:
       return state;
   }

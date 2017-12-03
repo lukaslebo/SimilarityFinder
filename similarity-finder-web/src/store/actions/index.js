@@ -1,4 +1,5 @@
-import { ADD_FILE, CLOSE_UPLOAD, SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, REMOVE_DOCUMENT, REMOVE_RESOURCE } from './types';
+import { ADD_FILE, CLOSE_UPLOAD, SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, 
+  REMOVE_DOCUMENT, REMOVE_RESOURCE, SELECT_RESOURCE } from './types';
 
 export const addButtonPressed = (frame) => ({
   type: ADD_FILE,
@@ -95,6 +96,7 @@ export const docRemove = (suffix = '/removeDocument') => {
     }
     const response = await fetch(URL, config);
     const res = await response.json();
+    console.log(res);
     if (res.status !== 'ok') {
       return;
     }
@@ -130,4 +132,11 @@ export const removeDocument = () => ({
 
 export const removeResource = () => ({
   type: REMOVE_RESOURCE,
+})
+
+export const selectResource = (resourceIndex) => ({
+  type: SELECT_RESOURCE,
+  payload: {
+    resourceIndex,
+  },
 })
