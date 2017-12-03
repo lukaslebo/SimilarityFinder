@@ -59,6 +59,15 @@ body {
   text-overflow: ellipsis;
 }
 
+/* non selectable text */
+
+.nonselectable {
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
 /* Dimmer for Cards */
 
 .dimmer {

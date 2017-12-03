@@ -13,3 +13,14 @@
   height: calc(100% - 43px);
   overflow: auto;
 }
+
+.default-msg {
+  display: flex;
+  height: 60%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: 100;
+  font-size: 2em;
+  color: rgba(0, 0, 0, 0.4);
+}

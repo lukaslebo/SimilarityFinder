@@ -16,7 +16,7 @@ class SummaryScreen extends React.Component {
 
   render() {
     return (
-      <div id={ this.props.id } className="summaryscreen primary-outline">
+      <div id={ this.props.id } className="summaryscreen primary-outline nonselectable">
         { this.summaryText() }
       </div>
     );

@@ -15,11 +15,11 @@ class Footer extends React.Component {
     return (
       <div id={ this.props.id }>
         <ul className="footer">
-          <li className="blue-hover clickable" data-name="author" onClick={ this.showItem }>Author</li>
-          <li>|</li>
-          <li className="blue-hover clickable" data-name="description" onClick={ this.showItem }>Description</li>
-          <li>|</li>
-          <li className="blue-hover clickable" data-name="contact" onClick={ this.showItem }>Contact</li>
+          <li className="blue-hover clickable nonselectable" data-name="author" onClick={ this.showItem }>Author</li>
+          <li className="nonselectable">|</li>
+          <li className="blue-hover clickable nonselectable" data-name="description" onClick={ this.showItem }>Description</li>
+          <li className="nonselectable">|</li>
+          <li className="blue-hover clickable nonselectable" data-name="contact" onClick={ this.showItem }>Contact</li>
         </ul>
       </div>
     );

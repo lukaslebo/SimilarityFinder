@@ -45,8 +45,8 @@ class TextFrame extends React.Component {
   }
 
   defaultMessage = () => {
-    const leftMsg = <div className="default-msg">Add a document</div>;
-    const rightMsg = <div className="default-msg">Add one or more resources</div>;
+    const leftMsg = <div className="default-msg nonselectable"><p>Add a document</p></div>;
+    const rightMsg = <div className="default-msg nonselectable"><p>Add one or more resources</p></div>;
     if (this.props.id === 'left') {
       return leftMsg;
     }
