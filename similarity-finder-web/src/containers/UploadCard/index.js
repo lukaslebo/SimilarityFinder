@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { truncateByWidth } from '../../stringUtils';
 
-import { closeCard, fileUpload } from '../../store/actions';
+import { closeCard, fileUpload, textUpload } from '../../store/actions';
 
 class UploadCard extends React.Component {
 
@@ -12,6 +12,9 @@ class UploadCard extends React.Component {
     super(props);
     this.state = {
       fileList: [],
+      ulType: 'file',
+      ulTitle: '',
+      ulText: '',
     }
   }
 
@@ -43,6 +46,15 @@ class UploadCard extends React.Component {
   }
 
   upload = () => {
+    if (this.state.ulType === 'file') {
+      this.uploadFile();
+    }
+    else if (this.state.ulType === 'text') {
+      this.uploadText();
+    }
+  }
+
+  uploadFile = () => {
     if (this.state.fileList.length === 0) {
       return;
     }
@@ -55,12 +67,43 @@ class UploadCard extends React.Component {
        apiSuffix = "/addResource";
        break;
       default:
-       apiSuffix = undefined;
     }
     this.props.dispatch(fileUpload(this.state.fileList, apiSuffix));
   }
 
-  cancleUpload = () => {
+  uploadText = () => {
+    if (this.state.ulTitle.length === 0  || this.state.ulText.length === 0) {
+      return;
+    }
+    let apiSuffix;
+    switch(this.props.frame) {
+      case "left":
+        apiSuffix = "/setDocText";
+        break;
+      case "right":
+       apiSuffix = "/addResourceText";
+       break;
+      default:
+    }
+    this.props.dispatch(textUpload(this.state.ulTitle, this.state.ulText, apiSuffix));
+  }
+
+  changeHandler = (e) => {
+    const val = e.currentTarget.value;
+    const type = e.currentTarget.getAttribute('data-type');
+    if (type === 'title') {
+      this.setState({
+        ulTitle: val,
+      });
+    }
+    else if (type === 'text') {
+      this.setState({
+        ulText: val,
+      });
+    }
+  }
+
+  cancelUpload = () => {
     this.props.dispatch(closeCard());
   }
 
@@ -72,29 +115,75 @@ class UploadCard extends React.Component {
     window.$('[data-toggle="tooltip"]').tooltip();
   }
 
+  typeSelector = (e) => {
+    const type = e.target.getAttribute('data-ul-type');
+    if (type === 'file') {
+      this.setState({
+        ulType: 'file',
+      });
+    }
+    else if (type === 'text') {
+      this.setState({
+        ulType: 'text',
+      })
+    }
+  }
+
+  uploadCard = () => {
+    if (this.state.ulType === 'file') {
+      return this.uploadFileHtml();
+    }
+    else if (this.state.ulType === 'text') {
+      return this.uploadTextHtml();
+    }
+  }
+
+  uploadFileHtml = () => {
+    return (
+      <div className="uploadcard">
+        <label className="btn btn-outline-primary clickable">
+          <input 
+            id="file-upload" type="file" accept=".txt,.pdf" 
+            multiple={ this.props.frame === "right" ? true:false}
+            hidden onChange={ this.selectFiles }
+          />
+          Browse
+        </label>
+        <div className="file-list">
+          <p 
+            className="auto-width" data-toggle="tooltip" data-placement="bottom" 
+            data-original-title={ this.tooltip() } data-html
+          >
+            { this.fileList() }
+          </p>
+        </div>
+        <button className="btn btn-outline-primary upload clickable" onClick={ this.upload }>Upload</button>
+        <button className="btn btn-outline-primary cancel clickable" onClick={ this.cancelUpload }>Cancel</button>
+      </div>
+    );
+  }
+
+  uploadTextHtml = () => {
+    return (
+      <div className="uploadcard text">
+        <label className="input-label">Title</label>
+        <input className="input-title" type="text" placeholder="Enter a title here" data-type="title" value={ this.state.ulTitle } onChange={ this.changeHandler }/>
+        <label className="input-label">Your text</label>
+        <textarea className="input-text" type="text" placeholder="Enter your text here" data-type="text" value={ this.state.ulText } onChange={ this.changeHandler }/>
+        <button type="submit" className="btn btn-outline-primary upload clickable" onClick={ this.upload }>Add</button>
+        <button className="btn btn-outline-primary cancel-text clickable" onClick={ this.cancelUpload }>Cancel</button>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="dimmer">
-        <div className="uploadcard">
-          <label className="btn btn-outline-primary clickable">
-            <input 
-              id="file-upload" type="file" accept=".txt,.pdf" 
-              multiple={ this.props.frame === "right" ? true:false}
-              hidden onChange={ this.selectFiles }
-            />
-            Browse
-          </label>
-          <div className="file-list">
-            <p 
-              className="auto-width" data-toggle="tooltip" data-placement="bottom" 
-              data-original-title={ this.tooltip() } data-html
-            >
-              { this.fileList() }
-            </p>
-          </div>
-          <button className="btn btn-outline-primary upload clickable" onClick={ this.cancleUpload }>Cancel</button>
-          <button className="btn btn-outline-primary cancel clickable" onClick={ this.upload }>Upload</button>
+        <div className="type-selector">
+          <div className={`ul-type ul-file clickable nonselectable${ this.state.ulType === 'file' ? ' ul-active' : ''}`} data-ul-type="file" onClick={ this.typeSelector }>File</div>
+          <div className={`ul-type ul-text clickable nonselectable${ this.state.ulType === 'text' ? ' ul-active' : ''}`} data-ul-type="text" onClick={ this.typeSelector }>Text</div>
         </div>
+        { this.uploadCard() }
       </div>
     );
   }
