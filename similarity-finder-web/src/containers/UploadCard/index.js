@@ -45,7 +45,10 @@ class UploadCard extends React.Component {
     return filenames.join("<br/>");
   }
 
-  upload = () => {
+  upload = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
     if (this.state.ulType === 'file') {
       this.uploadFile();
     }
@@ -103,7 +106,7 @@ class UploadCard extends React.Component {
     }
   }
 
-  cancelUpload = () => {
+  cancelUpload = (e) => {
     this.props.dispatch(closeCard());
   }
 
@@ -165,14 +168,14 @@ class UploadCard extends React.Component {
 
   uploadTextHtml = () => {
     return (
-      <div className="uploadcard text">
+      <form className="uploadcard text" onSubmit={ this.upload }>
         <label className="input-label">Title</label>
         <input className="input-title" type="text" placeholder="Enter a title here" data-type="title" value={ this.state.ulTitle } onChange={ this.changeHandler }/>
         <label className="input-label">Your text</label>
         <textarea className="input-text" type="text" placeholder="Enter your text here" data-type="text" value={ this.state.ulText } onChange={ this.changeHandler }/>
         <button type="submit" className="btn btn-outline-primary upload clickable" onClick={ this.upload }>Add</button>
         <button className="btn btn-outline-primary cancel-text clickable" onClick={ this.cancelUpload }>Cancel</button>
-      </div>
+      </form>
     );
   }
 
