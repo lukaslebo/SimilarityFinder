@@ -27,6 +27,10 @@ body {
   transition: 0.5s;
 }
 
+.primary-outline:active {
+  background-color: white !important;
+}
+
 .button-like {
   height: 38px;
   padding: 8px;
