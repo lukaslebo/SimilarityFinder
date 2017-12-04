@@ -7,10 +7,12 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -157,6 +159,64 @@ public class DocumentController {
 //			response.put("resources", userService.getResources(userId));			
 		} catch (Exception e) {
 			System.err.println("Error in removing a resource.");
+			System.err.println(e);
+			e.printStackTrace(System.out);
+			response.put("status", "failed");
+			response.put("exception", e);
+		}
+		return response;
+	}
+	
+	@PostMapping("/{userId}/setDocText")
+	public Map<String, Object> setDocText(@PathVariable String userId, @RequestBody Map<String, String> body) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			User user = this.userService.findById(userId);
+			if (user == null) {
+				throw new UserNotFoundException("User with id: " + userId + " does not exist.");
+			}
+			String content = body.get("text");
+			String fileName = body.get("title");
+			if (content == null || fileName == null) {
+				throw new RequestRejectedException("Request body has to contain a property text and title.");
+			}
+			Document doc = new Document(content, fileName);
+			userService.setDocument(userId, doc);
+			userService.parseAll(userId);
+			response.put("status", "ok");
+			response.put("document", userService.getDocument(userId));			
+		} catch ( Exception e) {
+			System.err.println("Error in setting text to document.");
+			System.err.println(e);
+			e.printStackTrace(System.out);
+			response.put("status", "failed");
+			response.put("exception", e);
+		}
+		return response;
+	}
+	
+	@PostMapping("/{userId}/addResourceText")
+	public Map<String, Object> addResourceText(@PathVariable String userId, @RequestBody Map<String, String> body) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			User user = this.userService.findById(userId);
+			if (user == null) {
+				throw new UserNotFoundException("User with id: " + userId + " does not exist.");
+			}
+			String content = body.get("text");
+			String fileName = body.get("title");
+			if (content == null || fileName == null) {
+				throw new RequestRejectedException("Request body has to contain a property text and title.");
+			}
+			Document doc = new Document(content, fileName);
+			userService.addResource(userId, doc);
+			userService.parseAll(userId);
+			List<Document> resources = userService.getResources(userId);
+			resources.sort((a, b) -> a.getDateCreated().isBefore(b.getDateCreated()) ? -1 : 1);
+			response.put("status", "ok");
+			response.put("resources", userService.getResources(userId));		
+		} catch ( Exception e) {
+			System.err.println("Error in adding text to resources.");
 			System.err.println(e);
 			e.printStackTrace(System.out);
 			response.put("status", "failed");

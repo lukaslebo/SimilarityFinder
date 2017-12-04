@@ -4,23 +4,75 @@
   height: 200px;
   width: 400px;
   margin: auto;
-  margin-top: calc(35vh - 100px);
+  margin-top: 0;
   border: 1px solid blue;
   border-radius: 5px;
   background: white;
   padding: 10px;
 }
 
+.uploadcard.text {
+  height: 400px;
+  width: 500px;
+}
+
+.type-selector {
+  position: relative;
+  z-index: 2;
+  height: 50px;
+  width: 200px;
+  margin: auto;
+  margin-top: calc(15vh);
+  border: 1px solid blue;
+  border-bottom: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background: white;
+}
+
+.ul-type {
+  display: inline-block;
+  width: 50%;
+  height: 100%;
+  text-align: center;
+  padding-top: 10px;
+  font-weight: 100;
+  font-size: 1.5em;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.ul-file {
+  border-top-left-radius: 5px;
+  border-right: 1px solid blue;
+}
+
+.ul-text {
+  border-top-right-radius: 5px;
+  /* border-left: 1px solid blue; */
+}
+
+.ul-active {
+  transition: 0.2s;
+  box-shadow: 0px 0px 20px 1px rgb(255, 251, 0) inset;
+}
+
+
 .btn.upload {
   position: absolute;
   bottom: 10px;
-  left: 105px;
+  left: 10px;
 }
 
 .btn.cancel {
   position: absolute;
   bottom: 10px;
-  left: 10px;
+  left: 105px;
+}
+
+.btn.cancel-text {
+  position: absolute;
+  bottom: 10px;
+  left: 82.47px;
 }
 
 .file-list {
@@ -40,4 +92,31 @@
 
 .tooltip.bs-tether-element-attached-top .tooltip-inner::before {
   border-bottom-color:rgba(0, 0, 0, 0.6);
+}
+
+.input-label {
+  display: block;
+  margin: 0;
+}
+
+.input-title, .input-text {
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  padding: 5px;
+  overflow: auto;
+}
+
+.input-title {
+  height: 38px;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.input-text {
+  resize: none;
+  height: 240px;
+  width: 100%;
+  text-align: left;
+  overflow-wrap: break-word;
 }

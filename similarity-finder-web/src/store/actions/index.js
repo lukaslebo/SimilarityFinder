@@ -95,6 +95,39 @@ export const fileUpload = (files, suffix = '/setDoc') => {
   }
 }
 
+export const textUpload = (title, text, suffix = '/setDocText') => {
+  return async (dispatch, getState) => {
+    const baseURL = getState().webApiReducer.apiBaseUrl;
+    const userId = getState().webApiReducer.userId;
+    const URL =  baseURL + '/api/document/' + userId + suffix;
+    const headers = new Headers({'Content-Type':'application/json'});
+    const config = {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({
+        title,
+        text,
+      }),
+    };
+    const response = await fetch(URL, config);
+    const res = await response.json();
+    console.log(res);
+    if (res.status !== 'ok') {
+      return;
+    }
+    switch (suffix) {
+      case '/setDocText':
+        dispatch(setDocument(res));
+        break;
+      case '/addResourceText':
+        dispatch(setResources(res));
+        break;
+      default:
+    }
+    dispatch(closeCard()); 
+  }
+}
+
 export const docRemove = (suffix = '/removeDocument') => {
   return async (dispatch, getState) => {
     const state = getState().webApiReducer;
