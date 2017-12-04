@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "locator": "^1.4.0",
     "moment": "^2.19.3",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
@@ -12,6 +13,8 @@
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
+    "sockjs": "^0.3.19",
+    "stompjs": "^2.3.3",
     "tether": "^1.4.3"
   },
   "scripts": {
