@@ -133,7 +133,7 @@ public class DocumentController {
 			List<Document> resources = userService.getResources(userId);
 			resources.sort((a, b) -> a.getDateCreated().isBefore(b.getDateCreated()) ? -1 : 1);
 			response.put("status", "ok");
-			response.put("resources", userService.getResources(userId));
+			response.put("resources", resources);
 		} catch (Exception e) {
 			System.err.println("Error in file upload!");
 			System.err.println(e);
@@ -214,7 +214,7 @@ public class DocumentController {
 			List<Document> resources = userService.getResources(userId);
 			resources.sort((a, b) -> a.getDateCreated().isBefore(b.getDateCreated()) ? -1 : 1);
 			response.put("status", "ok");
-			response.put("resources", userService.getResources(userId));		
+			response.put("resources", resources);		
 		} catch ( Exception e) {
 			System.err.println("Error in adding text to resources.");
 			System.err.println(e);
