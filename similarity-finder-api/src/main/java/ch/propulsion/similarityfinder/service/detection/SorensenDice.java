@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 import javax.annotation.concurrent.Immutable;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Immutable
