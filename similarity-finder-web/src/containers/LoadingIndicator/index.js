@@ -12,7 +12,7 @@ class LoadingIndicator extends React.Component {
       <div className="dimmer">
         <div className="l-wrapper">
           
-          <div className="nonselectable spinner-progress">{ value }%</div>
+          <div className="nonselectable spinner-progress">{ value }</div>
           <svg viewBox="-60 -60 240 240" version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" xmlnsXlink="http://www.w3.org/1999/xlink">
             
             <symbol id="s--circle">
