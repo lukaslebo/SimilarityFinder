@@ -105,4 +105,15 @@ public class Document {
 		this.isParsed = true;
 	}
 	
+	public String getSubset(int start, int end) {
+		if (end < start || start < 0 || end > parsedDocument_punctuated.size()-1) {
+			return "";
+		}
+		List<String> subset = new ArrayList<>();
+		for (int i = start; start <= end; start++) {
+			subset.add(parsedDocument_punctuated.get(i));			
+		}
+		return String.join(" ", subset);
+	}
+	
 }
