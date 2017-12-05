@@ -24,7 +24,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				super.addCorsMappings(registry);
 				registry.addMapping("/**")
 					.allowedMethods("PUT", "DELETE", "GET", "POST");
-//				registry.addMapping("/**").allowedOrigins("http://localhost:3000");
 			}
 		};
 	}
@@ -60,6 +59,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.mvcMatchers(HttpMethod.GET, "/api/document/**").permitAll()
 					.mvcMatchers(HttpMethod.POST, "/api/document/**").permitAll()
 					.mvcMatchers(HttpMethod.DELETE, "/api/document/**").permitAll()
+					.and()
+			
+			.mvcMatcher("/similarity-finder-websocket")
+				.authorizeRequests()
+					.mvcMatchers("/similarity-finder-websocket/**").permitAll()
 					.and()
 			
 				.authorizeRequests()
