@@ -74,7 +74,6 @@ class InfoCard extends React.Component {
   }
 
   render() {
-    
     return (
       <div className="dimmer" onClick={ this.closeCard }>
         <div className={`info-card ${ this.cardClass() }`} onClick={ this.preventClickThrough }>

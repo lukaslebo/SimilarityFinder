@@ -1,5 +1,5 @@
-import { ADD_FILE, CLOSE_CARD, SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, 
-  REMOVE_DOCUMENT, REMOVE_RESOURCE, SELECT_RESOURCE, CONTACT_CARD, DESCRIPTION_CARD, AUTHOR_CARD } from './types';
+import { ADD_FILE, CLOSE_CARD, PROGRESS_INDICATOR, SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, 
+  REMOVE_DOCUMENT, REMOVE_RESOURCE, SELECT_RESOURCE, CONTACT_CARD, DESCRIPTION_CARD, AUTHOR_CARD, SET_PROGRESS } from './types';
 
 export const addButtonPressed = (frame) => ({
   type: ADD_FILE,
@@ -111,7 +111,6 @@ export const textUpload = (title, text, suffix = '/setDocText') => {
     };
     const response = await fetch(URL, config);
     const res = await response.json();
-    console.log(res);
     if (res.status !== 'ok') {
       return;
     }
@@ -186,5 +185,16 @@ export const selectResource = (resourceIndex) => ({
   type: SELECT_RESOURCE,
   payload: {
     resourceIndex,
+  },
+})
+
+export const showProgress = () => ({
+  type: PROGRESS_INDICATOR,
+})
+
+export const setProgress = (progress) => ({
+  type: SET_PROGRESS,
+  payload: {
+    progress,
   },
 })

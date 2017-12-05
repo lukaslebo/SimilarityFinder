@@ -2,15 +2,58 @@ import React from 'react';
 import './index.css';
 import { connect } from 'react-redux';
 
-// import { refreshUser } from '../../store/actions';
+import LoadingIndicator from '../LoadingIndicator';
+
+import WebSocket from '../../websocketUtils';
+
+import { setProgress, showProgress, closeCard } from '../../store/actions';
 
 class RunButton extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      socket: null,
+    };
+  }
+
+  componentDidUpdate = () => {
+    if (this.state.socket === null && this.props.isLoggedin) {
+      const socket =  new WebSocket(this.startDetection);
+      this.setState({
+        socket: socket,
+      });
+    }
+  }
+
+  startDetection = (isConnected) => {
+    if (isConnected) {
+      const startDetection = `/app/start-detection/${ this.props.userId }`;
+      this.state.socket.send(startDetection);
+      this.props.dispatch(setProgress(0));
+      this.props.dispatch(showProgress());
+    }
+  }
+
   run = () => {
-    console.log(this.props.isLoggedin);
-    console.log(this.props.userId);
-    console.log(`expires at ${this.props.expiresAt.toString()} (in ${this.props.expiresAt.toNow(true)})`);
-    // this.props.dispatch(refreshUser());
+    if (this.props.document == null || this.props.resources.length === 0) {
+      //return;
+    }
+    if (!this.state.socket.isConnected) {
+      const URL = `/user-progress/${ this.props.userId }`;
+      this.state.socket.connect(URL, this.updateProgress);
+    }
+  }
+
+  updateProgress = (msg) => {
+    this.props.dispatch(setProgress(msg.progress));
+    if (msg.progress === 100) {
+      setTimeout(() => { 
+        this.props.dispatch(closeCard());
+        this.props.dispatch(setProgress(null)); }
+      , 500);
+      this.state.socket.disconnect();
+    }
   }
 
   hover = () => {
@@ -22,12 +65,17 @@ class RunButton extends React.Component {
   }
 
   render() {
+    let overlay;
+    if (this.props.showProgress) {
+      overlay = <LoadingIndicator val={`${ this.props.progress }`}/>
+    }
     return (
       <div id={ this.props.id }>
         <div className="constrain">
           <p className="btn-description">Find <span>Similarities</span></p>
           <button id="run-button" className="btn btn-outline-primary clickable" onClick={ this.run } onMouseEnter={ this.hover } onMouseLeave={ this.unhover }>Run</button>
         </div>
+        { overlay }
       </div>
     );
   }

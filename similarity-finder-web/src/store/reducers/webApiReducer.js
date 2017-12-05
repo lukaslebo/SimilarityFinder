@@ -1,5 +1,5 @@
 import { SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, REMOVE_DOCUMENT, 
-  REMOVE_RESOURCE, SELECT_RESOURCE } from '../actions/types';
+  REMOVE_RESOURCE, SELECT_RESOURCE, SET_PROGRESS } from '../actions/types';
 import Moment from 'moment';
 
 const API_BASE_URL = 'http://localhost:8080';
@@ -14,6 +14,8 @@ const initialState = {
   resourceIndex: null,
   similarities: [],
   isProcessed: false,
+  processingInitiated: false,
+  progress: null,
 }
 
 const webApiReducer = (state = initialState, action) => {
@@ -78,6 +80,16 @@ const webApiReducer = (state = initialState, action) => {
 
     case SELECT_RESOURCE:
       newState.resourceIndex = action.payload.resourceIndex;
+      return newState;
+
+    case SET_PROGRESS:
+      if (newState.progress === 100){
+        newState.progress = null;
+        return newState;
+      }
+      if (action.payload.progress >= 0) {
+        newState.progress = action.payload.progress;
+      }
       return newState;
 
     default:

@@ -1,4 +1,4 @@
-import { ADD_FILE, CONTACT_CARD, DESCRIPTION_CARD, AUTHOR_CARD, CLOSE_CARD } from '../actions/types';
+import { ADD_FILE, CONTACT_CARD, DESCRIPTION_CARD, AUTHOR_CARD, CLOSE_CARD, PROGRESS_INDICATOR } from '../actions/types';
 
 const initialState = {
   showUploadCard: false,
@@ -28,6 +28,10 @@ const displayReducer = (state = initialState, action) => {
 
     case AUTHOR_CARD:
       newState.showAuthorCard = true;
+      return newState;
+
+    case PROGRESS_INDICATOR:
+      newState.showProgress = true;
       return newState;
 
     case CLOSE_CARD:
