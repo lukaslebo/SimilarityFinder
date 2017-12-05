@@ -107,7 +107,7 @@ public class Document {
 	
 	public String getSubset(int start, int end) {
 		if (end < start || start < 0 || end > parsedDocument_punctuated.size()-1) {
-			return "";
+			throw new IllegalArgumentException("Start index must come before end index and both must be within the range of the document.");
 		}
 		List<String> subset = new ArrayList<>();
 		for (int i = start; start <= end; start++) {
