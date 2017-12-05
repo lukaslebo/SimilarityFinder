@@ -1,0 +1,14 @@
+.seconds {
+  background-color: #76c5c8;
+  height: 10px;
+  width: 300px;
+  margin: auto;
+  position: relative;
+  top: 100px;
+}
+
+.bar {
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,#87d4d7), color-stop(100%,#8bfbff));
+  height: 10px;
+  width: 0%;
+}
