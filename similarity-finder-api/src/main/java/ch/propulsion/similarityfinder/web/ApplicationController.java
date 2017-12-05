@@ -55,7 +55,7 @@ public class ApplicationController {
 		Thread.sleep(1000);
 		scheduledFuture = taskScheduler.scheduleAtFixedRate( () -> {
 			detectionProgress(userId);
-		}, 70);
+		}, 30);
 		response.put("status","ok");
 		return response;
 	}

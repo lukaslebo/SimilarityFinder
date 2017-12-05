@@ -1,8 +1,8 @@
-.fancy-background {
+.dimmer {
   background: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0) 48%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0) 52%), -webkit-linear-gradient(135deg, rgba(255, 255, 255, 0) 48%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0) 52%);
   background: linear-gradient(45deg, rgba(255, 255, 255, 0) 48%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0) 52%), linear-gradient(-45deg, rgba(255, 255, 255, 0) 48%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0) 52%);
   background-size: 1em 1em;
-  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .spinner-progress {

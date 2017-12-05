@@ -67,7 +67,7 @@ class RunButton extends React.Component {
   render() {
     let overlay;
     if (this.props.showProgress) {
-      overlay = <LoadingIndicator val={`${ this.props.progress }`}/>
+      overlay = <LoadingIndicator val={ `${ this.props.progress }` } adaptive-color/>
     }
     return (
       <div id={ this.props.id }>
