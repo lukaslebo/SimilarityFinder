@@ -103,6 +103,7 @@ public class ApplicationController {
 		if (dummyProgress > 1.005) {
 			dummyProgress = null;
 			scheduledFuture.cancel(false);
+			updateProcessDone(userId);
 		}
 	}
 	
