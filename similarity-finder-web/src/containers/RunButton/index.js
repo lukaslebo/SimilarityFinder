@@ -28,7 +28,7 @@ class RunButton extends React.Component {
 
   startDetection = (isConnected) => {
     if (isConnected) {
-      const startDetection = `/app/start-detection/${ this.props.userId }`;
+      const startDetection = `/app/start-dummy-detection/${ this.props.userId }`;
       this.state.socket.send(startDetection);
       this.props.dispatch(setProgress(0));
       this.props.dispatch(showProgress());
