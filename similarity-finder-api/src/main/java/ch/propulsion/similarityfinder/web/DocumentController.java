@@ -50,13 +50,35 @@ public class DocumentController {
 			}
 			List<Document> resources = userService.getResources(userId);
 			resources.sort((a, b) -> a.getDateCreated().isBefore(b.getDateCreated()) ? -1 : 1);
+			response.put("status", "ok");
 			response.put("user_exists", true);
 			response.put("id", user.getId());
 			response.put("expiresAt", user.getExpirationDate());
 			response.put("document", userService.getDocument(userId));
 			response.put("resources", resources);
+			response.put("similarities", userService.getSimilarities(userId));
 		} catch (Exception e) {
 			System.err.println("Error in retrieving documents of user!");
+			System.err.println(e);
+			e.printStackTrace(System.out);
+			response.put("status", "failed");
+			response.put("exception", e);
+		}
+		return response;
+	}
+	
+	@GetMapping("/{userId}/similarities")
+	public Map<String, Object> getSimilarities(@PathVariable String userId) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			User user = this.userService.findById(userId);
+			if (user == null) {
+				throw new UserNotFoundException("User with id: " + userId + " does not exist.");
+			}
+			response.put("status", "ok");
+			response.put("similarities", userService.getSimilarities(userId));
+		} catch (Exception e) {
+			System.err.println("Error in retrieving Similarities");
 			System.err.println(e);
 			e.printStackTrace(System.out);
 			response.put("status", "failed");
