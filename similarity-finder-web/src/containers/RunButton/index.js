@@ -6,7 +6,7 @@ import LoadingIndicator from '../LoadingIndicator';
 
 import WebSocket from '../../websocketUtils';
 
-import { setProgress, showProgress, closeCard } from '../../store/actions';
+import { setProgress, showProgress, closeCard, getSimilarities } from '../../store/actions';
 
 class RunButton extends React.Component {
 
@@ -30,8 +30,6 @@ class RunButton extends React.Component {
     if (isConnected) {
       const startDetection = `/app/start-dummy-detection/${ this.props.userId }`;
       this.state.socket.send(startDetection);
-      this.props.dispatch(setProgress(0));
-      this.props.dispatch(showProgress());
     }
   }
 
@@ -46,8 +44,14 @@ class RunButton extends React.Component {
   }
 
   updateProgress = (msg) => {
-    this.props.dispatch(setProgress(msg.progress));
-    if (msg.progress === 100) {
+    if (msg.status === 'ok' && !this.props.showProgress) {
+      this.props.dispatch(showProgress());
+    }
+    if (msg.progress >= 0) {
+      this.props.dispatch(setProgress(msg.progress));
+    }
+    if (msg.isDone) {
+      this.props.dispatch(getSimilarities());
       setTimeout(() => { 
         this.props.dispatch(closeCard());
         this.props.dispatch(setProgress(null)); }
