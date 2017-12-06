@@ -23,9 +23,9 @@ public class DetailComparator {
 	
 	private final SorensenDice dice = new SorensenDice();
 	
-	public DetailComparator(String s1, String s2, String resourceId, int docStart, int resStart) {
-		this.words1 = Arrays.asList(s1.split(" "));
-		this.words2 = Arrays.asList(s2.split(" "));
+	public DetailComparator(String documentString, String resourceString, String resourceId, int docStart, int resStart) {
+		this.words1 = Arrays.asList(documentString.split(" "));
+		this.words2 = Arrays.asList(resourceString.split(" "));
 		this.resourceId = resourceId;
 		this.docStart = docStart;
 		this.resStart = resStart;
