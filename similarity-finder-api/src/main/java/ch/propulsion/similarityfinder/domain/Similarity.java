@@ -37,29 +37,57 @@ public class Similarity {
 	@Column(name="resource_end_index", nullable=false)
 	private Integer resourceEndIndex;
 	
-	@Column(name="severity_rating", nullable=false)
-	private Integer severityRating;
+	@Column(nullable=false)
+	private Double similarity;
+	
+	private boolean isUnique = true;
 	
 	public Similarity(String id, Integer startIndex, Integer endIndex, String resourceId, Integer resourceStartIndex,
-			Integer resourceEndIndex, Integer severityRating) {
+			Integer resourceEndIndex, Double similarity) {
 		this.id = id;
 		this.startIndex = startIndex;
 		this.endIndex = endIndex;
 		this.resourceId = resourceId;
 		this.resourceStartIndex = resourceStartIndex;
 		this.resourceEndIndex = resourceEndIndex;
-		this.severityRating = severityRating;
+		this.similarity = similarity;
 	}
 	
 	public Similarity(Integer startIndex, Integer endIndex, String resourceId, Integer resourceStartIndex,
-			Integer resourceEndIndex, Integer severityRating) {
-		this(null, startIndex, endIndex, resourceId, resourceStartIndex, resourceEndIndex, severityRating);
+			Integer resourceEndIndex, Double similarity) {
+		this(null, startIndex, endIndex, resourceId, resourceStartIndex, resourceEndIndex, similarity);
 	}
 	
 	@PrePersist
 	public void onCreate() {
 		String uuid = UUID.randomUUID().toString();
 		setId(uuid);
+	}
+	
+	public int size() {
+		return endIndex-startIndex;
+	}
+	
+	public boolean isContainedIn(Similarity sim) {	
+		if (
+			this.startIndex >= sim.startIndex && 
+			this.endIndex <= sim.endIndex
+		) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isOverlappingWith(Similarity sim) {
+		if (
+			(this.startIndex >= sim.startIndex &&
+			this.startIndex <= sim.endIndex) ||
+			(this.endIndex >= sim.startIndex &&
+			this.endIndex <= sim.endIndex)
+		) {
+			return true;
+		}
+		return false;
 	}
 	
 }
