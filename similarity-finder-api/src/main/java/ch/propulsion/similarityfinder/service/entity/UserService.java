@@ -26,5 +26,6 @@ public interface UserService {
 	List<String> getResourceIds(String userId);
 	List<Document> getResources(String userId);
 	Document getDocument(String userId);
+	List<Similarity> getSimilarities(String userId);
 	
 }

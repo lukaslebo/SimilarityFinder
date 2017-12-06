@@ -171,4 +171,13 @@ public class DefaultUserService implements UserService {
 		return user.getDocument();
 	}
 
+	@Override
+	public List<Similarity> getSimilarities(String userId) {
+		User user = this.userRepository.findById(userId);
+		if (user == null) {
+			return null;
+		}
+		return user.getSimilarities();
+	}
+
 }
