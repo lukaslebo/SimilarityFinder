@@ -109,11 +109,7 @@ public class Document {
 		if (end < start || start < 0 || end > parsedDocument_punctuated.size()-1) {
 			throw new IllegalArgumentException("Start index must come before end index and both must be within the range of the document.");
 		}
-		List<String> subset = new ArrayList<>();
-		for (int i = start; start <= end; start++) {
-			subset.add(parsedDocument_punctuated.get(i));			
-		}
-		return String.join(" ", subset);
+		return String.join(" ", parsedDocument_punctuated.subList(start, end+1));
 	}
 	
 }
