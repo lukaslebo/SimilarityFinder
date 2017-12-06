@@ -8,23 +8,27 @@ import org.springframework.stereotype.Service;
 import ch.propulsion.similarityfinder.domain.Document;
 import ch.propulsion.similarityfinder.domain.Similarity;
 import ch.propulsion.similarityfinder.service.entity.UserService;
+import ch.propulsion.similarityfinder.web.ApplicationController;
 
 @Service
 public class DocumentComparator {
 	
 	private final UserService userService;
+	private final ApplicationController appController;
 	private final SorensenDice dice;
 	
+	private String userId;
 	private Document document;
 	private List<Document> resources;
 	private int TOTAL_CYCLES;
 	private int completedCycles;
 	private int progress;
-	private String userId;
 
 	@Autowired
-	public DocumentComparator(UserService userService, SorensenDice dice) {
+	public DocumentComparator(UserService userService, ApplicationController appController, 
+			SorensenDice dice) {
 		this.userService = userService;
+		this.appController = appController;
 		this.dice = dice;
 	}
 	
@@ -146,12 +150,8 @@ public class DocumentComparator {
 		int currentProgress = Math.floorDiv(completedCycles * 100, TOTAL_CYCLES);
 		if (currentProgress > progress) {
 			progress = (int) currentProgress;
-			// TODO: send info to user...
+			appController.updateProgressInfo(userId, progress);
 		}
 	}
-	
-	
-	
-	
 	
 }
