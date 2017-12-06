@@ -44,6 +44,7 @@ public class DocumentComparator {
 		prepareProgressTracking();
 		documentLooper();
 		reset();
+		appController.updateProcessDone(userId);
 	}
 
 	private void reset() {
