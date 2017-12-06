@@ -13,8 +13,10 @@ import ch.propulsion.similarityfinder.web.ApplicationController;
 @Service
 public class DocumentComparator {
 	
+	@Autowired
+	private ApplicationController appController;
+	
 	private final UserService userService;
-	private final ApplicationController appController;
 	private final SorensenDice dice;
 	
 	private String userId;
@@ -25,10 +27,8 @@ public class DocumentComparator {
 	private int progress;
 
 	@Autowired
-	public DocumentComparator(UserService userService, ApplicationController appController, 
-			SorensenDice dice) {
+	public DocumentComparator(UserService userService, SorensenDice dice) {
 		this.userService = userService;
-		this.appController = appController;
 		this.dice = dice;
 	}
 	
