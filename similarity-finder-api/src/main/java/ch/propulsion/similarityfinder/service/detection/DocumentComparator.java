@@ -43,19 +43,26 @@ public class DocumentComparator {
 		userService.parseAll(userId);
 		prepareProgressTracking();
 		documentLooper();
+		reset();
 	}
 
 	private void reset() {
 		document = null;
 		resources = null;
+		completedCycles = 0;
+		TOTAL_CYCLES = 0;
 	}
 	
 	private void prepareProgressTracking() {
+		
 		completedCycles = 0;
 		progress = 0;
+		
 		int total = 0;
 		int docSize = document.getSentenceStartIndex().size();
+		
 		for (Document resource : resources) {
+			
 			int resSize = resource.getSentenceStartIndex().size();
 			total += docSize * resSize;
 		}
@@ -68,46 +75,49 @@ public class DocumentComparator {
 		}
 	}
 	
-	private void compareDocuments(Document document, Document resource) {
+	private void compareDocuments(Document document, Document resource) {		
+		final List<Integer> startIndex = document.getSentenceStartIndex();
+		final List<Integer> endIndex = document.getSentenceEndIndex();
+		final List<Integer> resourceStartIndex = resource.getSentenceStartIndex();
+		final List<Integer> resourceEndIndex = resource.getSentenceEndIndex();
 		DetailComparator detailComparator;
-		
-		List<Integer> startIndex = document.getSentenceStartIndex();
-		List<Integer> endIndex = document.getSentenceEndIndex();
-		List<Integer> resourceStartIndex = resource.getSentenceStartIndex();
-		List<Integer> resourceEndIndex = resource.getSentenceEndIndex();
-		
 		int docStart;
 		int docEnd;
 		int resStart;
 		int resEnd;
 		int wordCount1;
 		int wordCount2;
-		
-		String s1;
-		String s2;
-		
 		double sim;
 		
 		for (int i = 0; i < startIndex.size(); i++) {
+			
 			docStart = startIndex.get(i);
 			docEnd = endIndex.get(i);
 			wordCount1 = docEnd - docStart + 1;
+			
 			for (int j = 0; j < resourceStartIndex.size(); j++) {
+				
 				resStart = resourceStartIndex.get(j);
 				resEnd = resourceEndIndex.get(j);
 				wordCount2 = resEnd - resStart + 1;
-				s1 = document.getSubset(docStart, docEnd);
-				s2 = resource.getSubset(resStart, resEnd);
+				String s1 = document.getSubset(docStart, docEnd);
+				String s2 = resource.getSubset(resStart, resEnd);
+				
 				sim = dice.similarity(s1, s2);
+				
 				if (sentenceThreshhold(s1, wordCount1, s2, wordCount2) < sim) {
-					detailComparator = new DetailComparator(s1, s2, document, resource);
+					
+					detailComparator = new DetailComparator(s1, s2, resource.getId(), docStart, resStart);
+					
 					List<Similarity> similarityList = detailComparator.findSimilarities();
 					for (Similarity similarity : similarityList) {
 						userService.addSimilarity(userId, similarity);
 					}
 				}
+				
 				++completedCycles;
 				trackProgress();
+				
 			}
 		}	
 	}
