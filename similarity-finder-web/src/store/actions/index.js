@@ -1,5 +1,5 @@
 import { ADD_FILE, CLOSE_CARD, PROGRESS_INDICATOR, SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, 
-  REMOVE_DOCUMENT, REMOVE_RESOURCE, SELECT_RESOURCE, CONTACT_CARD, DESCRIPTION_CARD, AUTHOR_CARD, SET_PROGRESS } from './types';
+  REMOVE_DOCUMENT, REMOVE_RESOURCE, SELECT_RESOURCE, CONTACT_CARD, DESCRIPTION_CARD, AUTHOR_CARD, SET_PROGRESS, SET_SIMILARITIES } from './types';
 
 export const addButtonPressed = (frame) => ({
   type: ADD_FILE,
@@ -196,5 +196,31 @@ export const setProgress = (progress) => ({
   type: SET_PROGRESS,
   payload: {
     progress,
+  },
+})
+
+
+export const getSimilarities = () => {
+  return async (dispatch, getState) => {
+    const state = getState().webApiReducer;
+    const baseURL = state.apiBaseUrl;
+    const userId = state.userId;
+    let URL = baseURL + '/api/document/' + userId + '/similarities';
+    const config = {
+      method: 'GET',
+    }
+    const response = await fetch(URL, config);
+    const res = await response.json();
+    if (res.status !== 'ok') {
+      return;
+    }
+    dispatch(setSimilarities(res));
+  }
+}
+
+export const setSimilarities = (res) => ({
+  type: SET_SIMILARITIES,
+  payload: {
+    similarities: res.similarities,
   },
 })

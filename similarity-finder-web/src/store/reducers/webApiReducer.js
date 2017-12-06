@@ -1,5 +1,5 @@
 import { SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, REMOVE_DOCUMENT, 
-  REMOVE_RESOURCE, SELECT_RESOURCE, SET_PROGRESS } from '../actions/types';
+  REMOVE_RESOURCE, SELECT_RESOURCE, SET_PROGRESS, SET_SIMILARITIES } from '../actions/types';
 import Moment from 'moment';
 
 const API_BASE_URL = 'http://localhost:8080';
@@ -66,9 +66,15 @@ const webApiReducer = (state = initialState, action) => {
 
     case REMOVE_DOCUMENT:
       newState.document = null;
+      newState.isProcessed = false;
+      newState.similarities = [];
       return newState;
 
     case REMOVE_RESOURCE:
+      currentId = newState.resources[newState.resourceIndex].id;
+      if (newState.similarities.length > 0) {
+        newState.similarities = newState.similarities.filter(el => el.id != currentId);
+      }
       newState.resources = newState.resources.filter( (el, index) => index !== newState.resourceIndex);
       if (newState.resourceIndex >= newState.resources.length) {
         newState.resourceIndex = newState.resources.length-1;
@@ -89,6 +95,13 @@ const webApiReducer = (state = initialState, action) => {
       }
       if (action.payload.progress >= 0) {
         newState.progress = action.payload.progress;
+      }
+      return newState;
+
+    case SET_SIMILARITIES:
+      newState.similarities = action.payload.similarities;
+      if (newState.similarities.length > 0) {
+        newState.isProcessed = true;
       }
       return newState;
 
