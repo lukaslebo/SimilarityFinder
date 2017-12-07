@@ -29,6 +29,9 @@ public class DetailComparator {
 		this.resourceId = resourceId;
 		this.docStart = docStart;
 		this.resStart = resStart;
+		System.err.println("in detail comparator:");
+		System.err.println("words1: " + words1.size() + " | " + words1.toString());
+		System.err.println("words2: " + words2.size() + " | " + words2.toString());
 	}
 	
 	public List<Similarity> findSimilarities() {
@@ -47,7 +50,7 @@ public class DetailComparator {
 				String substring1 = String.join(" ", words1.subList(start1, start1+size1));
 				
 				for (int size2 = words2.size(); size2 >= minSize2; size2--) {
-					for (int start2 = 0; start2+size2 >= words2.size(); start2++) {
+					for (int start2 = 0; start2+size2 <= words2.size(); start2++) {
 						
 						String substring2 = String.join(" ", words2.subList(start2, start2+size2));
 						
@@ -57,6 +60,9 @@ public class DetailComparator {
 							Similarity similarity = new Similarity(docStart+start1, docStart+start1+size1-1, resourceId,//
 																				resStart+start2, resStart+start2+size2-1, sim);
 							detectedSimilarities.add(similarity);
+							System.err.println("substring1: " + substring1);
+							System.err.println("substring2: " + substring2);
+							System.err.println("=> " + sim);
 						}
 						
 					}
@@ -70,6 +76,7 @@ public class DetailComparator {
 			compareToAll(similarity);
 		}
 		setUniqueSimilarities();
+		System.err.println("unique similarities: " + uniqueSimilarities.size());
 		reduceUniqueSimilarities();
 	}
 	
@@ -95,7 +102,7 @@ public class DetailComparator {
 	}
 	
 	private void deselectLesserSimilarity(Similarity sim1, Similarity sim2) {
-		if (sim1.getSimilarity() == sim2.getSimilarity()) {
+		if (Math.abs(sim1.getSimilarity() - sim2.getSimilarity()) <= Math.pow(10, -10)) {
 			if (sim1.size() >= sim2.size()) {
 				sim2.setUnique(false);
 			} else {
