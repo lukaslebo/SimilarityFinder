@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.PrePersist;
@@ -38,7 +39,7 @@ public class Document {
 	@Column(columnDefinition="CLOB", nullable=false)
 	private String content;
 	
-	@ElementCollection
+	@ElementCollection(fetch=FetchType.EAGER)
 	private List<String> parsedDocument_punctuated = new ArrayList<>();
 	
 	@ElementCollection
