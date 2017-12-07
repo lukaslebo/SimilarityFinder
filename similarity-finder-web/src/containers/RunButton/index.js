@@ -14,6 +14,7 @@ class RunButton extends React.Component {
     super(props);
     this.state = {
       socket: null,
+      requestInProcess: false,
     };
   }
 
@@ -27,9 +28,13 @@ class RunButton extends React.Component {
   }
 
   startDetection = (isConnected) => {
-    if (isConnected) {
-      const startDetection = `/app/start-dummy-detection/${ this.props.userId }`;
-      this.state.socket.send(startDetection);
+    if (isConnected && !this.state.requestInProcess) {
+      console.log('sending start signal!');
+      const startURL = `/app/start-detection/${ this.props.userId }`;
+      this.state.socket.send(startURL);
+      this.setState({
+        requestInProcess: true,
+      });
     }
   }
 
@@ -44,6 +49,7 @@ class RunButton extends React.Component {
   }
 
   updateProgress = (msg) => {
+    console.log(msg);
     if (msg.status === 'ok' && !this.props.showProgress) {
       this.props.dispatch(showProgress());
     }
@@ -57,6 +63,9 @@ class RunButton extends React.Component {
         this.props.dispatch(setProgress(null)); }
       , 500);
       this.state.socket.disconnect();
+      this.setState({
+        requestInProcess: false,
+      });
     }
   }
 
