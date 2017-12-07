@@ -59,6 +59,7 @@ class TextFrame extends React.Component {
     if (this.props.similarities.length === 0) {
       return doc.content;
     }
+    return doc.content;
   }
 
   displayText = () => {
