@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import ch.propulsion.similarityfinder.domain.Document;
 import ch.propulsion.similarityfinder.domain.Similarity;
+import ch.propulsion.similarityfinder.service.entity.SimilarityService;
 import ch.propulsion.similarityfinder.service.entity.UserService;
 import ch.propulsion.similarityfinder.web.ApplicationController;
 
@@ -17,6 +18,7 @@ public class DocumentComparator {
 	private ApplicationController appController;
 	
 	private final UserService userService;
+	private final SimilarityService simService;
 	private final SorensenDice dice;
 	
 	private String userId;
@@ -27,8 +29,9 @@ public class DocumentComparator {
 	private int progress;
 
 	@Autowired
-	public DocumentComparator(UserService userService, SorensenDice dice) {
+	public DocumentComparator(UserService userService, SimilarityService simService, SorensenDice dice) {
 		this.userService = userService;
+		this.simService = simService;
 		this.dice = dice;
 	}
 	
@@ -38,8 +41,10 @@ public class DocumentComparator {
 		resources = userService.getResources(userId);
 		if (document == null || resources == null || resources.size() == 0) {
 			reset();
+			appController.updateProcessDone(userId);
 			return;
 		}
+		userService.removeAllSimilarities(userId);
 		userService.parseAll(userId);
 		prepareProgressTracking();
 		documentLooper();
@@ -112,6 +117,7 @@ public class DocumentComparator {
 					
 					List<Similarity> similarityList = detailComparator.findSimilarities();
 					for (Similarity similarity : similarityList) {
+						similarity = simService.save(similarity);
 						userService.addSimilarity(userId, similarity);
 					}
 				}
