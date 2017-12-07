@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,6 +69,15 @@ public class DefaultUserService implements UserService {
 			this.deleteById(user.getId());
 		}
 	}
+	
+	@Override
+	public void setExpirationDate(String userId, LocalDateTime newDate) {
+		User user = this.userRepository.findById(userId);
+		if (user == null) {
+			return;
+		}
+		user.setExpirationDate(newDate);
+	}
 
 	@Override
 	public void setDocument(String userId, Document document) {
@@ -116,6 +126,7 @@ public class DefaultUserService implements UserService {
 		user.removeResource(resourceId);
 		this.similarityRepository.deleteAllByResourceId(resourceId);
 		this.documentRepository.deleteById(resourceId);
+		
 	}
 
 	@Override
@@ -138,6 +149,15 @@ public class DefaultUserService implements UserService {
 		}
 		user.addSimilarity(similarity);
 	}
+	
+	@Override
+	public void removeAllSimilarities(String userId) {
+		User user = this.userRepository.findById(userId);
+		if (user == null) {
+			return;
+		}
+		user.setSimilarities(new ArrayList<>());
+	}
 
 	@Override
 	public List<String> getResourceIds(String userId) {
@@ -154,10 +174,10 @@ public class DefaultUserService implements UserService {
 		if (user == null) {
 			return null;
 		}
-		List<String> resourceIds = user.getResourceIds().stream().collect(Collectors.toList());
-		List<Document> resources= new ArrayList<>();
-		for (String key : resourceIds) {
-			resources.add(user.getResources().get(key));
+		List<Document> resources = new ArrayList<>(user.getResources().values());
+		for (Document resource : resources) {
+			Hibernate.initialize(resource.getSentenceStartIndex());
+			Hibernate.initialize(resource.getSentenceEndIndex());
 		}
 		return resources;
 	}
@@ -168,7 +188,13 @@ public class DefaultUserService implements UserService {
 		if (user == null) {
 			return null;
 		}
-		return user.getDocument();
+		Document document = user.getDocument();
+		if (document == null) {
+			return null;
+		}
+		Hibernate.initialize(document.getSentenceStartIndex());
+		Hibernate.initialize(document.getSentenceEndIndex());
+		return document;
 	}
 
 	@Override
