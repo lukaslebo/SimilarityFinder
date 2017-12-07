@@ -144,6 +144,7 @@ export const docRemove = (suffix = '/removeDocument') => {
     }
     const response = await fetch(URL, config);
     const res = await response.json();
+    console.log(res);
     if (res.status !== 'ok') {
       return;
     }
@@ -214,6 +215,7 @@ export const getSimilarities = () => {
     if (res.status !== 'ok') {
       return;
     }
+    console.log(res.similarities);
     dispatch(setSimilarities(res));
   }
 }
@@ -224,3 +226,27 @@ export const setSimilarities = (res) => ({
     similarities: res.similarities,
   },
 })
+
+export const loadSpecificUser = (userId) => {
+  return async (dispatch, getState) => {
+    const state = getState().webApiReducer;
+    const baseURL = state.apiBaseUrl;
+    let URL = baseURL + '/api/document/' + userId;
+    console.log(URL);
+    const config = {
+      method: 'GET',
+    }
+    const response = await fetch(URL, config);
+    const res = await response.json();
+    console.log(res);
+    if (res.status !== 'ok') {
+      dispatch(getNewUser());
+      return;
+    }
+    dispatch(setNewUser(res));
+    dispatch(setDocument(res));
+    dispatch(setResources(res));
+    dispatch(setSimilarities(res));
+    // dispatch(refreshUser());
+  }
+}
