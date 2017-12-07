@@ -39,7 +39,7 @@ public class User {
 	private String id;
 	
 	@Column(name="expiration_date", nullable=false)
-	private LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(accountExpirationPeriodInMinutes);
+	private LocalDateTime expirationDate;
 	
 	@OneToOne
 	private Document document = null;
@@ -59,6 +59,9 @@ public class User {
 	public void onCreate() {
 		String uuid = UUID.randomUUID().toString();			
 		setId(uuid);
+		if (expirationDate == null) {
+			setExpirationDate(LocalDateTime.now().plusMinutes(accountExpirationPeriodInMinutes));
+		}
 	}
 	
 	public void addResource(String resourceId, Document resource) {
@@ -68,8 +71,8 @@ public class User {
 	
 	public void removeResource(String resourceId) {
 		this.similarities = this.similarities.stream()//
-												.filter(el -> el.getResourceId() != resourceId)//
-												.collect(Collectors.toList());
+				.filter(sim -> !sim.getResourceId().equals(resourceId))//
+				.collect(Collectors.toList());
 		this.resourceIds.remove(resourceId);
 		this.resources.remove(resourceId);
 	}
@@ -81,10 +84,6 @@ public class User {
 	
 	public void addSimilarity(Similarity similarity) {
 		this.similarities.add(similarity);
-	}
-	
-	public void removeSimilarity(Similarity similarity) {
-		this.similarities.remove(similarity);
 	}
 	
 	public void refreshExpirationDate() {
