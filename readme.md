@@ -14,6 +14,10 @@ Web application that allows to compare your personal document (i.e. a thesis) ag
 * SockJS & Stomp
 * Apache PDFBox
 
+## Similarity Algorithm
+
+The detection is based on pure string comparison. The Sørensen–Dice coefficient is the fundamental algorithm used in the comparison. The implementation is closely following the implementation from this repository: [tdebatty/java-string-similarity](https://github.com/tdebatty/java-string-similarity)
+
 ## Documentation
 
 To be created...
