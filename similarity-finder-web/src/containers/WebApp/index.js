@@ -12,14 +12,16 @@ import Footer from '../Footer';
 import UploadCard from '../UploadCard';
 import InfoCard from '../InfoCard';
 
-import { getNewUser } from '../../store/actions';
+import { getNewUser, loadSpecificUser } from '../../store/actions';
 
 
 class WebApp extends React.Component {
 
   componentDidMount = () => {
     if (!this.props.isLoggedin) {
-      this.props.dispatch(getNewUser());
+      //this.props.dispatch(getNewUser());
+      const userId = '55e4f67c-7489-4f40-ad62-3ccbfd944168';
+      this.props.dispatch(loadSpecificUser(userId));
     }
   }
 
