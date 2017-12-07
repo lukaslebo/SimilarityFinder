@@ -1,5 +1,6 @@
 package ch.propulsion.similarityfinder.web;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
@@ -44,10 +45,10 @@ public class ApplicationController {
 			response.put("status", "failed");
 			return response;
 		}
-		taskScheduler.scheduleWithFixedDelay(() -> {
+		taskScheduler.schedule(() -> {
 			System.out.println("Starting detection for user: " + userId);
 			comparator.initiateDetection(userId);
-		}, 0);
+		}, new Date());
 		response.put("status","ok");
 		return response;
 	}
