@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public final class SorensenDice {
 	
 	private static final int DEFAULT_K = 2;
-	private static final boolean REMOVE_SPACES = false;
+	private static final boolean REMOVE_SPACES = true;
 	private static final Pattern SPACE_REG = Pattern.compile("\\s+");
 
     private final int k;
