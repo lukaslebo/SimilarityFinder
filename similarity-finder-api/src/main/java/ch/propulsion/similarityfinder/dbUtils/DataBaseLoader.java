@@ -34,7 +34,7 @@ public class DataBaseLoader implements ApplicationRunner {
 	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		String userId = "55e4f67c-7489-4f40-ad62-3ccbfd944168";
+		String userId = "4be84db3-0788-4140-9e97-f4f77d3e3b56";
 		LocalDateTime expirationDate = LocalDateTime.now().plusYears(1);
 		userService.setExpirationDate(userId, expirationDate);
 	}
