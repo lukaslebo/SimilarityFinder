@@ -8,9 +8,10 @@ Web application that allows to compare your personal document (i.e. a thesis) ag
 
 ## Technology Stack used
 
-* Spring Boot
+* Java Spring Boot
 * H2 & JPA
-* React & Redux
+* Javascript React & Redux
+* Bootstrap
 * SockJS & Stomp
 * Apache PDFBox
 
