@@ -31,6 +31,7 @@ class RunButton extends React.Component {
     if (isConnected && !this.state.requestInProcess) {
       console.log('sending start signal!');
       const startURL = `/app/start-detection/${ this.props.userId }`;
+      // const startURL = `/app/start-dummy-detection/${ this.props.userId }`;
       this.state.socket.send(startURL);
       this.setState({
         requestInProcess: true,
