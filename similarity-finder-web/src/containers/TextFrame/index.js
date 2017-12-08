@@ -2,6 +2,8 @@ import React from 'react';
 import './index.css';
 import { connect } from 'react-redux';
 
+import HighlightedText from '../HighlightedText';
+
 import { truncateByWidth } from '../../stringUtils';
 
 import { selectResource } from '../../store/actions';
@@ -59,7 +61,7 @@ class TextFrame extends React.Component {
     if (this.props.similarities.length === 0) {
       return doc.content;
     }
-    return doc.content;
+    return <HighlightedText id={ this.props.id }/>;
   }
 
   displayText = () => {
