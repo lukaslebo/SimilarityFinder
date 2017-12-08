@@ -232,7 +232,6 @@ export const loadSpecificUser = (userId) => {
     const state = getState().webApiReducer;
     const baseURL = state.apiBaseUrl;
     let URL = baseURL + '/api/document/' + userId;
-    console.log(URL);
     const config = {
       method: 'GET',
     }
