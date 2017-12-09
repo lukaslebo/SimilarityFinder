@@ -63,6 +63,7 @@ public class DefaultDocumentParser implements DocumentParser {
 		PDDocument pdfDoc = PDDocument.load(file);
 		PDFTextStripper pdfStripper = new PDFTextStripper();
 		String fileContent = pdfStripper.getText(pdfDoc);
+		fileContent = fileContent.replaceAll("(?<=[^\\.?!][ ])[\\n\\r](?=[^\\n\\r])","");
 		pdfDoc.close();
 		return new Document(fileContent, file.getName());
 	}
