@@ -76,34 +76,35 @@ public class Document {
 	}
 	
 	public void parse() {
-		if (this.isParsed || this.content == null || this.content.length() == 0) {
+		if (isParsed || content == null || content.length() == 0) {
 			return;
 		}
-		this.content = this.content.replaceAll("[\\s]{2,}", " ");
-		this.parsedDocument_punctuated = Arrays.asList(this.content.split("\\s"));
-		this.parsedDocument = Arrays.asList(this.content.replaceAll("\\p{Punct}", "").split("\\s"));
-		if (this.parsedDocument.size() == 0) {
+		content = content.replaceAll("[\\s&&[^\\n\\r]]+", " ");
+		content = content.trim();
+		parsedDocument_punctuated = Arrays.asList(content.replaceAll("[\\s]+", " ").split("\\s"));
+		parsedDocument = Arrays.asList(content.replaceAll("\\p{Punct}", "").split("\\s"));
+		if (parsedDocument.size() == 0) {
 			return;
 		}
-		if (this.sentenceStartIndex.size() > 0 || this.sentenceEndIndex.size() > 0) {
-			this.sentenceStartIndex = new ArrayList<>();
-			this.sentenceEndIndex = new ArrayList<>();
+		if (sentenceStartIndex.size() > 0 || this.sentenceEndIndex.size() > 0) {
+			sentenceStartIndex = new ArrayList<>();
+			sentenceEndIndex = new ArrayList<>();
 		}
-		this.sentenceStartIndex.add(0);
-		int docSize = this.parsedDocument_punctuated.size();
+		sentenceStartIndex.add(0);
+		int docSize = parsedDocument_punctuated.size();
 		for (int i = 0; i < docSize; i++) {
 			String word = parsedDocument_punctuated.get(i);
-			if ((word.charAt(word.length()-1)+"").matches("[.?!]")) {
-				this.sentenceEndIndex.add(i);
+			if (word.length() > 0 && (word.charAt(word.length()-1)+"").matches("[.?!]")) {
+				sentenceEndIndex.add(i);
 				if (i < docSize-1) {
-					this.sentenceStartIndex.add(i+1);
+					sentenceStartIndex.add(i+1);
 				}
 			}
 		}
-		if (this.sentenceStartIndex.size() > this.sentenceEndIndex.size()) {
-			this.sentenceEndIndex.add(docSize-1);
+		if (sentenceStartIndex.size() > sentenceEndIndex.size()) {
+			sentenceEndIndex.add(docSize-1);
 		}
-		this.isParsed = true;
+		isParsed = true;
 	}
 	
 	public String getSubset(int start, int end) {
