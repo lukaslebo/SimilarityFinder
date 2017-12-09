@@ -40,7 +40,7 @@ class RunButton extends React.Component {
 
   run = () => {
     if (this.props.document == null || this.props.resources.length === 0) {
-      //return;
+      return;
     }
     if (!this.state.socket.isConnected) {
       const URL = `/user-progress/${ this.props.userId }`;
