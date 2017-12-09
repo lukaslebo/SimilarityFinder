@@ -15,6 +15,7 @@ class UploadCard extends React.Component {
       ulType: 'file',
       ulTitle: '',
       ulText: '',
+      isUploading: false,
     }
   }
 
@@ -58,7 +59,7 @@ class UploadCard extends React.Component {
   }
 
   uploadFile = () => {
-    if (this.state.fileList.length === 0) {
+    if (this.state.fileList.length === 0 || this.state.isUploading) {
       return;
     }
     let apiSuffix;
@@ -71,11 +72,14 @@ class UploadCard extends React.Component {
        break;
       default:
     }
+    this.setState({
+      isUploading: true,
+    });
     this.props.dispatch(fileUpload(this.state.fileList, apiSuffix));
   }
 
   uploadText = () => {
-    if (this.state.ulTitle.length === 0  || this.state.ulText.length === 0) {
+    if (this.state.ulTitle.length === 0  || this.state.ulText.length === 0 || this.state.isUploading) {
       return;
     }
     let apiSuffix;
@@ -88,6 +92,9 @@ class UploadCard extends React.Component {
        break;
       default:
     }
+    this.setState({
+      isUploading: true,
+    });
     this.props.dispatch(textUpload(this.state.ulTitle, this.state.ulText, apiSuffix));
   }
 
