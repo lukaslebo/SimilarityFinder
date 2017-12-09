@@ -144,7 +144,6 @@ export const docRemove = (suffix = '/removeDocument') => {
     }
     const response = await fetch(URL, config);
     const res = await response.json();
-    console.log(res);
     if (res.status !== 'ok') {
       return;
     }
@@ -215,7 +214,6 @@ export const getSimilarities = () => {
     if (res.status !== 'ok') {
       return;
     }
-    console.log(res.similarities);
     dispatch(setSimilarities(res));
   }
 }
@@ -237,7 +235,6 @@ export const loadSpecificUser = (userId) => {
     }
     const response = await fetch(URL, config);
     const res = await response.json();
-    console.log(res);
     if (res.status !== 'ok') {
       dispatch(getNewUser());
       return;
