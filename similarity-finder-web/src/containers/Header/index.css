@@ -11,3 +11,17 @@ h3:hover span {
 h3:not(:hover) span {
   transition: 0.5s;
 }
+
+.logo-container {
+  display: inline-block;
+  position: relative;
+  width: 40px;
+}
+
+.logo-container > svg {
+  position: absolute;
+  top: -25px;
+  width: 35px;
+  height: 35px;
+  margin: 0;
+}
