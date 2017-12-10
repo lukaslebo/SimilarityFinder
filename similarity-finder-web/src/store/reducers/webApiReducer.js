@@ -73,7 +73,7 @@ const webApiReducer = (state = initialState, action) => {
     case REMOVE_RESOURCE:
       currentId = newState.resources[newState.resourceIndex].id;
       if (newState.similarities.length > 0) {
-        newState.similarities = newState.similarities.filter(el => el.id !== currentId);
+        newState.similarities = newState.similarities.filter(el => el.resourceId !== currentId);
       }
       newState.resources = newState.resources.filter( (el, index) => index !== newState.resourceIndex);
       if (newState.resourceIndex >= newState.resources.length) {
