@@ -72,6 +72,8 @@ public class DocumentComparator {
 			total += docSize * resSize;
 		}
 		TOTAL_CYCLES = total;
+		
+		appController.updateProgressInfo(userId, progress);
 	}
 	
 	private void documentLooper() {
