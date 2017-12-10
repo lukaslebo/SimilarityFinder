@@ -21,12 +21,19 @@ The detection is based on pure string comparison. The Sørensen–Dice coefficie
 
 ## Documentation
 
-To be created...
+This is a similarity detection tool. You can use it to compare one document against one or more resources.
+
+The documents will be uploaded to the server. Only the parsed content of your documents will be temporarily stored. After 3 hours of inactivity your session is timed out and all your content will be ultimately removed from the server.
+
+The tool is able to pick up similar text based on pure text comparison. Paraphrasing will not be detected.
 
 ## Todo
 
+* Improve Performance of DetailComparator
 * File Upload Loading Bar
 * Support multiple users running the app => Queue-System and show queue-position in frontend
+* A lot of code refactoring to achieve clean code / improve quality
+* Deploy
 
 ## Contact
 
