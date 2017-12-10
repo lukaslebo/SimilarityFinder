@@ -10,7 +10,7 @@ class HighlightedText extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      docIsHighlighted: false,
+      simcount: 0,
     };
   }
 
@@ -30,7 +30,7 @@ class HighlightedText extends React.Component {
     const sim = JSON.parse(JSON.stringify(this.props.similarities));
     if (this.props.id === 'left') {
       return sim.sort( (a, b) => {
-        return a.startIndex < b.startIndex ? -1 : 1;
+        return a.startIndex <= b.startIndex ? -1 : 1;
       });
     }
     else if (this.props.id === 'right') {
@@ -38,7 +38,7 @@ class HighlightedText extends React.Component {
       return sim.filter( el => {
         return el.resourceId === resourceId;
       }).sort( (a, b) => {
-        return a.resourceStartIndex < b.resourceStartIndex ? -1 : 1;
+        return a.resourceStartIndex <= b.resourceStartIndex ? -1 : 1;
       });
     }
   }
@@ -77,7 +77,6 @@ class HighlightedText extends React.Component {
   }
 
   occurrences = (string, subString, allowOverlapping) => {
-    
         string += "";
         subString += "";
         if (subString.length <= 0) return (string.length + 1);
@@ -128,8 +127,12 @@ class HighlightedText extends React.Component {
   }
 
   docText = () => {
+    let trigger = '';
     const doc = this.documentSelector();
-    return doc.content;
+    if (this.similaritySelector().length === 0) {
+      trigger = ' ';
+    }
+    return doc.content+trigger;
   }
 
   clickSimilarity = (e) => {
