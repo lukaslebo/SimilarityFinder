@@ -1,4 +1,4 @@
-# Similarity Detection Tool
+# Similarity Finder
 
 Web application that allows to compare your personal document (i.e. a thesis) against a number of resources (literature) and highlights similarities.
 
