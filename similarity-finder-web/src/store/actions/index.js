@@ -1,5 +1,6 @@
 import { ADD_FILE, CLOSE_CARD, PROGRESS_INDICATOR, SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, 
-  REMOVE_DOCUMENT, REMOVE_RESOURCE, SELECT_RESOURCE, CONTACT_CARD, DESCRIPTION_CARD, AUTHOR_CARD, SET_PROGRESS, SET_SIMILARITIES } from './types';
+  REMOVE_DOCUMENT, REMOVE_RESOURCE, SELECT_RESOURCE, CONTACT_CARD, DESCRIPTION_CARD, AUTHOR_CARD,
+  SET_PROGRESS, SET_SIMILARITIES, REMOVE_SIMILARITIES } from './types';
 
 export const addButtonPressed = (frame) => ({
   type: ADD_FILE,
@@ -241,6 +242,10 @@ export const setSimilarities = (res) => ({
   payload: {
     similarities: res.similarities,
   },
+})
+
+export const removeSimilarities = () => ({
+  type: REMOVE_SIMILARITIES,
 })
 
 export const loadSpecificUser = (userId) => {

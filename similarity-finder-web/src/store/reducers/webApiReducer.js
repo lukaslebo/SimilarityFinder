@@ -1,5 +1,5 @@
 import { SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, REMOVE_DOCUMENT, 
-  REMOVE_RESOURCE, SELECT_RESOURCE, SET_PROGRESS, SET_SIMILARITIES } from '../actions/types';
+  REMOVE_RESOURCE, SELECT_RESOURCE, SET_PROGRESS, SET_SIMILARITIES, REMOVE_SIMILARITIES } from '../actions/types';
 import Moment from 'moment';
 
 const API_BASE_URL = 'http://192.168.1.200:8080'; //'http://localhost:8080';
@@ -89,20 +89,22 @@ const webApiReducer = (state = initialState, action) => {
       return newState;
 
     case SET_PROGRESS:
-      if (newState.progress === 100){
-        newState.progress = null;
-        return newState;
-      }
       if (action.payload.progress >= 0) {
         newState.progress = action.payload.progress;
       }
       return newState;
 
     case SET_SIMILARITIES:
+      newState.progress = null;
       newState.similarities = action.payload.similarities;
       if (newState.similarities.length > 0) {
         newState.isProcessed = true;
       }
+      return newState;
+
+    case REMOVE_SIMILARITIES:
+      newState.isProcessed = false;
+      newState.similarities = [];
       return newState;
 
     default:

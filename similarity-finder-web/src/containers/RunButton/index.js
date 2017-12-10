@@ -35,6 +35,7 @@ class RunButton extends React.Component {
       this.setState({
         requestInProcess: true,
       });
+      this.props.dispatch(removeSimilarities());
     }
   }
 
