@@ -57,19 +57,12 @@ class TextFrame extends React.Component {
     }
   }
 
-  textFormatter = (doc) => {
-    if (this.props.similarities.length === 0) {
-      return doc.content;
-    }
-    return <HighlightedText id={ this.props.id }/>;
-  }
-
   displayText = () => {
     const doc = this.documentSelector();
     if (doc === null) {
       return this.defaultMessage();
     }
-    return this.textFormatter(doc);
+    return <HighlightedText id={ this.props.id }/>;
   }
 
   getFilename = () => {
@@ -102,7 +95,7 @@ class TextFrame extends React.Component {
     return this.props.resources.map( (doc, index) => {
       let fileName = truncateByWidth(doc.fileName, window.$('.leftside-wide').width());
       return <div key={ index } className="dropdown-item clickable" data-resource-index={ index } onClick={ this.resourceSelector }>{ fileName }</div>;
-    }).filter( (doc, index) => index !== this.props.resourceIndex);
+    });//.filter( (doc, index) => index !== this.props.resourceIndex);
   }
 
   fileDisplay = () => {
