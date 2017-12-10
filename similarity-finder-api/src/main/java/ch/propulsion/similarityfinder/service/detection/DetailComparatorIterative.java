@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import ch.propulsion.similarityfinder.domain.Similarity;
 
-public class DetailComparator {
+public class DetailComparatorIterative implements DetailComparator {
 	
 	private static final int MIN_WORDS = 3;
 	private static final double SIM_THRESHHOLD = 0.85;
@@ -17,13 +17,14 @@ public class DetailComparator {
 	private final String resourceId;
 	private final int docStart;
 	private final int resStart;
+	private int count = 0;
 	
 	private List<Similarity> detectedSimilarities = new ArrayList<>();
 	private List<Similarity> uniqueSimilarities = new ArrayList<>();
 	
 	private final SorensenDice dice = new SorensenDice();
 	
-	public DetailComparator(String documentString, String resourceString, String resourceId, int docStart, int resStart) {
+	public DetailComparatorIterative(String documentString, String resourceString, String resourceId, int docStart, int resStart) {
 		this.words1 = Arrays.asList(documentString.split(" "));
 		this.words2 = Arrays.asList(resourceString.split(" "));
 		this.resourceId = resourceId;
@@ -37,6 +38,7 @@ public class DetailComparator {
 	public List<Similarity> findSimilarities() {
 		combinationLooper();
 		filterSimilarities();
+		System.err.println("count: " + count);
 		return uniqueSimilarities;
 	}
 	
@@ -51,7 +53,7 @@ public class DetailComparator {
 				
 				for (int size2 = words2.size(); size2 >= minSize2; size2--) {
 					for (int start2 = 0; start2+size2 <= words2.size(); start2++) {
-						
+						++count;
 						String substring2 = String.join(" ", words2.subList(start2, start2+size2));
 						
 						double sim = dice.similarity(substring1, substring2);

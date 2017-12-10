@@ -114,7 +114,7 @@ public class DocumentComparator {
 				
 				if (sentenceThreshhold(s1, wordCount1, s2, wordCount2) < sim) {
 					
-					detailComparator = new DetailComparator(s1, s2, resource.getId(), docStart, resStart);
+					detailComparator = new DetailComparatorIterative(s1, s2, resource.getId(), docStart, resStart);
 					
 					List<Similarity> similarityList = detailComparator.findSimilarities();
 					for (Similarity similarity : similarityList) {
