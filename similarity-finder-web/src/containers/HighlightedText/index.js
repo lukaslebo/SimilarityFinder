@@ -7,13 +7,6 @@ import { selectResource } from '../../store/actions';
 
 class HighlightedText extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      simcount: 0,
-    };
-  }
-
   documentSelector = () => {
     if (this.props.id === 'left') {
       return this.props.document;
@@ -44,9 +37,9 @@ class HighlightedText extends React.Component {
   }
 
   adjustIndexes = (similarities) => {
-    let corr = 0;
     const doc = this.documentSelector();
     const words = doc.parsedDocument_punctuated;
+    let corr = 0;
     for (let sim of similarities) {
       if (this.props.id === 'left') {
         sim.startIndex = words.slice(0, sim.startIndex).join(" ").length;
@@ -58,9 +51,13 @@ class HighlightedText extends React.Component {
           }
           corr = matches;
         }
-        sim.startIndex = sim.startIndex === 0 ? sim.startIndex : sim.startIndex + 1 + corr;
-        sim.endIndex = words.slice(0, sim.endIndex+1).join(" ").length + corr;
-      } else if (this.props.id === 'right') {
+        while ((doc.content.charAt(sim.startIndex+corr).match(/[ \n]/g) || []).length > 0) {
+          ++corr;
+        }
+        sim.startIndex += corr;
+        sim.endIndex = words.slice(0, sim.endIndex+1).join(" ").length + corr-1;
+      } 
+      else if (this.props.id === 'right') {
         sim.resourceStartIndex = words.slice(0, sim.resourceStartIndex).join(" ").length;
         while (true) {
           let string = doc.content.substr(0, sim.resourceStartIndex+corr);
@@ -70,8 +67,11 @@ class HighlightedText extends React.Component {
           }
           corr = matches;
         }
-        sim.resourceStartIndex = sim.resourceStartIndex === 0 ? sim.resourceStartIndex + corr : sim.resourceStartIndex + 1 + corr;
-        sim.resourceEndIndex = words.slice(0, sim.resourceEndIndex+1).join(" ").length + corr;
+        while ((doc.content.charAt(sim.resourceStartIndex+corr).match(/[ \n]/g) || []).length > 0) {
+          ++corr;
+        }
+        sim.resourceStartIndex += corr;
+        sim.resourceEndIndex = words.slice(0, sim.resourceEndIndex+1).join(" ").length + corr-1;
       }
     }
   }
@@ -127,11 +127,9 @@ class HighlightedText extends React.Component {
   }
 
   docText = () => {
-    let trigger = '';
     const doc = this.documentSelector();
-    if (this.similaritySelector().length === 0) {
-      trigger = ' ';
-    }
+    // Change text html based on amount of similarities - otherwhise rerender will be skipped
+    let trigger = ' '.repeat(this.props.similarities.length);
     return doc.content+trigger;
   }
 
@@ -186,8 +184,21 @@ class HighlightedText extends React.Component {
     animateScroll();
   }
 
+  setupMouseHover = () => {
+    setInterval( () => {
+      window.$('.sim-active').removeClass('sim-active');
+      const hovered = window.$('.highlight:hover');
+      if (hovered.length > 0) {
+        const simId = hovered[hovered.length-1].getAttribute('data-sim-id');
+        const simPair = window.$(`[data-sim-id=${simId}]`);
+        simPair.addClass('sim-active');
+        simPair.find('*').addClass('sim-active');
+      }
+    }, 100);
+  }
+
   componentDidMount = () => {
-    setupMouseHover();
+    this.setupMouseHover();
     this.setHighlighting();
   }
 
@@ -197,6 +208,8 @@ class HighlightedText extends React.Component {
       if (count > 0) {
         return;
       }
+      const container = window.$('div.text-container-left');
+      container.text(container.text().trim());
     }
     this.setHighlighting();
   }
@@ -216,16 +229,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(HighlightedText);
-
-const setupMouseHover = () => {
-  setInterval( () => {
-    window.$('.sim-active').removeClass('sim-active');
-    const hovered = window.$('.highlight:hover');
-    if (hovered.length > 0) {
-      const simId = hovered[hovered.length-1].getAttribute('data-sim-id');
-      const simPair = window.$(`[data-sim-id=${simId}]`);
-      simPair.addClass('sim-active');
-      simPair.find('*').addClass('sim-active');
-    }
-  }, 100);
-}
