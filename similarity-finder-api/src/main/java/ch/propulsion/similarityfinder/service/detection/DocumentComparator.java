@@ -45,7 +45,6 @@ public class DocumentComparator {
 			return;
 		}
 		userService.removeAllSimilarities(userId);
-		userService.parseAll(userId);
 		prepareProgressTracking();
 		documentLooper();
 		reset();

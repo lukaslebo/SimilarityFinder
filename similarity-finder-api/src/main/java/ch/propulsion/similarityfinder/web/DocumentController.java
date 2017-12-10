@@ -99,7 +99,6 @@ public class DocumentController {
 			Path pathToFile = storageService.load(file.getOriginalFilename());
 			Document doc = parser.parseFileToDocument(pathToFile);
 			userService.setDocument(userId, doc);
-			userService.parseAll(userId);
 			response.put("status", "ok");
 			response.put("document", userService.getDocument(userId));
 		} catch (Exception e) {
@@ -151,7 +150,6 @@ public class DocumentController {
 			for (Document doc : docs) {
 				userService.addResource(userId, doc);
 			}
-			userService.parseAll(userId);
 			List<Document> resources = userService.getResources(userId);
 			resources.sort((a, b) -> a.getDateCreated().isBefore(b.getDateCreated()) ? -1 : 1);
 			response.put("status", "ok");
@@ -204,7 +202,6 @@ public class DocumentController {
 			}
 			Document doc = new Document(content, fileName);
 			userService.setDocument(userId, doc);
-			userService.parseAll(userId);
 			response.put("status", "ok");
 			response.put("document", userService.getDocument(userId));			
 		} catch ( Exception e) {
@@ -232,7 +229,6 @@ public class DocumentController {
 			}
 			Document doc = new Document(content, fileName);
 			userService.addResource(userId, doc);
-			userService.parseAll(userId);
 			List<Document> resources = userService.getResources(userId);
 			resources.sort((a, b) -> a.getDateCreated().isBefore(b.getDateCreated()) ? -1 : 1);
 			response.put("status", "ok");

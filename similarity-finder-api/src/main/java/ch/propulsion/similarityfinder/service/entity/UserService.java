@@ -23,7 +23,6 @@ public interface UserService {
 	void removeDocument(String userId);
 	void addResource(String userId, Document document);
 	void removeResource(String userId, String resourceId);
-	void parseAll(String userId);
 	void addSimilarity(String userId, Similarity similarity);
 	void removeAllSimilarities(String userId);
 	List<String> getResourceIds(String userId);

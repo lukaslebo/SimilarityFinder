@@ -7,13 +7,14 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -39,19 +40,22 @@ public class Document {
 	@Column(columnDefinition="CLOB", nullable=false)
 	private String content;
 	
-	@ElementCollection(fetch=FetchType.EAGER)
+	@JsonInclude()
+	@Transient
 	private List<String> parsedDocument_punctuated = new ArrayList<>();
 	
-	@ElementCollection
+	@Transient
 	private List<String> parsedDocument = new ArrayList<>();
 	
-	@ElementCollection
+	@JsonInclude()
+	@Transient
 	private List<Integer> sentenceStartIndex = new ArrayList<>();
 	
-	@ElementCollection
+	@JsonInclude()
+	@Transient
 	private List<Integer> sentenceEndIndex = new ArrayList<>();
 	
-	@Column(name="is_parsed", nullable=false)
+	@Transient
 	private boolean isParsed = false;
 	
 	public Document(String id, String content, String fileName) {

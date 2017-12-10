@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -130,18 +129,6 @@ public class DefaultUserService implements UserService {
 	}
 
 	@Override
-	public void parseAll(String userId) {
-		User user = this.userRepository.findById(userId);
-		if (user == null) {
-			return;
-		}
-		if (user.getDocument() != null) {
-			user.getDocument().parse();
-		}
-		user.getResources().forEach((key, doc) -> doc.parse());
-	}
-
-	@Override
 	public void addSimilarity(String userId, Similarity similarity) {
 		User user = this.userRepository.findById(userId);
 		if (user == null) {
@@ -176,8 +163,7 @@ public class DefaultUserService implements UserService {
 		}
 		List<Document> resources = new ArrayList<>(user.getResources().values());
 		for (Document resource : resources) {
-			Hibernate.initialize(resource.getSentenceStartIndex());
-			Hibernate.initialize(resource.getSentenceEndIndex());
+			resource.parse();
 		}
 		return resources;
 	}
@@ -192,8 +178,7 @@ public class DefaultUserService implements UserService {
 		if (document == null) {
 			return null;
 		}
-		Hibernate.initialize(document.getSentenceStartIndex());
-		Hibernate.initialize(document.getSentenceEndIndex());
+		document.parse();
 		return document;
 	}
 
