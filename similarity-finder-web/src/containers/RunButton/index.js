@@ -6,7 +6,7 @@ import LoadingIndicator from '../LoadingIndicator';
 
 import WebSocket from '../../websocketUtils';
 
-import { setProgress, showProgress, closeCard, getSimilarities } from '../../store/actions';
+import { setProgress, showProgress, closeCard, getSimilarities, removeSimilarities } from '../../store/actions';
 
 class RunButton extends React.Component {
 
