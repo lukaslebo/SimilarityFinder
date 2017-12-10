@@ -113,7 +113,6 @@ const webApiReducer = (state = initialState, action) => {
 export default webApiReducer;
 
 function toMoment(inputArr) {
-  let dateString = inputArr.slice(0, 3).join("-").concat(" ",inputArr.slice(3, 6).join(":")).concat(".",(inputArr[6]+"").slice(0,3));
-  let date = new Date(dateString);
+  let date = new Date(...inputArr);
   return new Moment(date.toISOString());
 } 
