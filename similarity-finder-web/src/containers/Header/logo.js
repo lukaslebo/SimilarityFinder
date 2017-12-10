@@ -7,7 +7,7 @@ class Logo extends React.Component {
 		return (
 			<div className="logo-container">
 				<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-					viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xmlSpace="preserve">
+					viewBox="0 0 1000 1000" xmlSpace="preserve">
 					<g>
 						<g>
 							<polygon fill="#63C3E8" points="384.7,239 391.5,251.1 569,150.9 562.2,138.8 		"/>
