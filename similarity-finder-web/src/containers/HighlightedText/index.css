@@ -1,3 +1,10 @@
 .highlight {
   background: rgba(255, 235, 59, 0.8);
+  transition: 0.3s;
+  padding: 1px;
+  border-radius: 5px;
+}
+
+.sim-active {
+  background: orange;
 }
