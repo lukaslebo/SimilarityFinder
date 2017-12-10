@@ -20,7 +20,7 @@ class WebApp extends React.Component {
   componentDidMount = () => {
     if (!this.props.isLoggedin) {
       //this.props.dispatch(getNewUser());
-      const userId = '4be84db3-0788-4140-9e97-f4f77d3e3b56';
+      const userId = '2419373b-8f09-4183-8c61-7d9bfb597543';
       this.props.dispatch(loadSpecificUser(userId));
     }
   }
