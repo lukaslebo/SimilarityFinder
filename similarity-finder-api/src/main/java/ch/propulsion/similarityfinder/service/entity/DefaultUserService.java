@@ -143,7 +143,11 @@ public class DefaultUserService implements UserService {
 		if (user == null) {
 			return;
 		}
+		List<Similarity> similarities = user.getSimilarities();
 		user.setSimilarities(new ArrayList<>());
+		for (Similarity similarity : similarities) {
+			this.similarityRepository.deleteById(similarity.getId());
+		}
 	}
 
 	@Override
