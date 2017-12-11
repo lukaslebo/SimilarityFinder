@@ -1,15 +1,45 @@
-h3 {
+.title-container {
+  display: inline-block;
+  width: 235px;
   margin: 0;
   padding: 5px;
 }
 
-h3:hover span {
-  color: red;
-  transition: 0.5s;
+.left-title, .right-title {
+  display: inline-block;
+  transition: 1s;
 }
 
-h3:not(:hover) span {
-  transition: 0.5s;
+.left-title {
+  color: red;
+  margin-left: -12px;
+}
+
+.right-title {
+  padding-left: 2px;
+}
+
+.title-container:hover .left-title {
+  font-size: 0.8em;
+  transform: translateY(-5px);
+}
+
+.title-container:hover .right-title {
+  padding-left: 0px;
+  transform: translateY(3px);
+}
+
+.title-container:hover svg>g {
+  animation: ease-in-out wiggle 0.5s;
+  animation-delay: 0.3s;
+  transform-origin: 50%;
+}
+
+@keyframes wiggle {
+  0%   { transform: rotate(0deg); }
+  30%  { transform: rotate(8deg); }
+  60%  { transform: rotate(-8deg); }
+  100% { transform: rotate(0deg); }
 }
 
 .logo-container {
