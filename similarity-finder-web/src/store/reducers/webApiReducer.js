@@ -115,6 +115,7 @@ const webApiReducer = (state = initialState, action) => {
 export default webApiReducer;
 
 function toMoment(inputArr) {
-  let date = new Date(...inputArr);
-  return new Moment(date.toISOString());
+  --inputArr[1];
+  inputArr[6] = Number((inputArr[5]+'').substr(0,3));
+  return Moment.utc(inputArr);
 } 
