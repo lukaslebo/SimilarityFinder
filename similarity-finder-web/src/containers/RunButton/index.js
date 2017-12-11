@@ -85,7 +85,7 @@ class RunButton extends React.Component {
     return (
       <div id={ this.props.id }>
         <div className="constrain">
-          <p className="btn-description">Find <span>Similarities</span></p>
+          <p className="btn-description nonselectable">Find <span>Similarities</span></p>
           <button id="run-button" className="btn btn-outline-primary clickable" onClick={ this.run } onMouseEnter={ this.hover } onMouseLeave={ this.unhover }>Run</button>
         </div>
         { overlay }
