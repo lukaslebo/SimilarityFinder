@@ -3,7 +3,7 @@
   min-height: 100vh;
   display: grid;
   grid-template-columns: 1fr minmax(300px, 40vw) 50px minmax(300px, 40vw) 1fr;
-  grid-template-rows: 40px 100px minmax(500px, 75vh) 1fr 35px;
+  grid-template-rows: 40px 100px minmax(450px, 75vh) 1fr 35px;
   grid-gap: 0px;
   grid-template-areas: 
     ". header header header ."
