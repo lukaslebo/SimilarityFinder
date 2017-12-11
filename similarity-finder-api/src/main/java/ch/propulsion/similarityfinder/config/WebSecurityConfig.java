@@ -35,8 +35,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests().antMatchers("/h2_console/**").permitAll();
     	
         httpSecurity
-        
-	        // we don't need CSRF because our token is invulnerable
 	        .csrf().disable()
 	        
 	        // don't create session
@@ -66,29 +64,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.mvcMatchers("/similarity-finder-websocket/**").permitAll()
 					.and()
 			
-				.authorizeRequests()
-					.antMatchers(
-		                    HttpMethod.GET,
-		                    "/",
-		                    "/*.html",
-		                    "/favicon.ico",
-		                    "/**/*.html",
-		                    "/**/*.css",
-		                    "/**/*.js"
-		                ).permitAll()
-		                .antMatchers("/auth/**").permitAll()
-		                .anyRequest().authenticated()
-		                .and()
+			.authorizeRequests()
+				.antMatchers(
+	                    HttpMethod.GET,
+	                    "/",
+	                    "/*.html",
+	                    "/favicon.ico",
+	                    "/**/*.html",
+	                    "/**/*.css",
+	                    "/**/*.js"
+	                ).permitAll()
+	                .antMatchers("/auth/**").permitAll()
+	                .anyRequest().authenticated()
+	                .and()
 			
-		        .mvcMatcher("/**")
-					.authorizeRequests()
-						.mvcMatchers("/**").denyAll();
+	        .mvcMatcher("/**")
+				.authorizeRequests()
+					.mvcMatchers("/**").denyAll();
 		                
 
-		        // disable page caching
-		        httpSecurity.headers().cacheControl();
-		        
-		        httpSecurity.headers().frameOptions().disable();
+        // disable page caching
+        httpSecurity.headers().cacheControl();
+        
+        httpSecurity.headers().frameOptions().disable();
 	
 	}
 }

@@ -122,8 +122,7 @@ public class DocumentController {
 				throw new UserNotFoundException("User with id: " + userId + " does not exist.");
 			}
 			userService.removeDocument(userId);
-			response.put("status", "ok");			
-//			response.put("document", userService.getDocument(userId));
+			response.put("status", "ok");
 		} catch (Exception e) {
 			System.err.println("Error in removing document.");
 			System.err.println(e);
@@ -175,8 +174,7 @@ public class DocumentController {
 				throw new UserNotFoundException("User with id: " + userId + " does not exist.");
 			}
 			userService.removeResource(userId, resourceId);
-			response.put("status", "ok");
-//			response.put("resources", userService.getResources(userId));			
+			response.put("status", "ok");			
 		} catch (Exception e) {
 			System.err.println("Error in removing a resource.");
 			System.err.println(e);
