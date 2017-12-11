@@ -1,5 +1,6 @@
 package ch.propulsion.similarityfinder.service.entity;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ public class DefaultUserService implements UserService {
 
 	@Override
 	public void deleteExpiredUsers() {
-		List<User> usersToDelete = this.userRepository.findByExpirationDateBefore(LocalDateTime.now());
+		List<User> usersToDelete = this.userRepository.findByExpirationDateBefore(LocalDateTime.now(Clock.systemUTC()));
 		for (User user : usersToDelete) {
 			this.deleteById(user.getId());
 		}

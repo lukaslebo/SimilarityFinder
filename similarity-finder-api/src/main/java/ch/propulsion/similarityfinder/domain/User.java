@@ -1,5 +1,6 @@
 package ch.propulsion.similarityfinder.domain;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,7 +61,7 @@ public class User {
 		String uuid = UUID.randomUUID().toString();			
 		setId(uuid);
 		if (expirationDate == null) {
-			setExpirationDate(LocalDateTime.now().plusMinutes(accountExpirationPeriodInMinutes));
+			setExpirationDate(LocalDateTime.now(Clock.systemUTC()).plusMinutes(accountExpirationPeriodInMinutes));
 		}
 	}
 	
@@ -87,7 +88,7 @@ public class User {
 	}
 	
 	public void refreshExpirationDate() {
-		this.expirationDate = LocalDateTime.now().plusMinutes(accountExpirationPeriodInMinutes);
+		this.expirationDate = LocalDateTime.now(Clock.systemUTC()).plusMinutes(accountExpirationPeriodInMinutes);
 	}
 	
 }
