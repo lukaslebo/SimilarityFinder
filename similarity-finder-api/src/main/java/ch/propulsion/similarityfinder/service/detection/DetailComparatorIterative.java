@@ -10,7 +10,7 @@ import ch.propulsion.similarityfinder.domain.Similarity;
 public class DetailComparatorIterative implements DetailComparator {
 	
 	private static final int MIN_WORDS = 3;
-	private static final double SIM_THRESHHOLD = 0.85;
+	private static final double SIM_THRESHHOLD = 0.80;
 	
 	private final List<String> words1;
 	private final List<String> words2;
@@ -30,9 +30,9 @@ public class DetailComparatorIterative implements DetailComparator {
 		this.resourceId = resourceId;
 		this.docStart = docStart;
 		this.resStart = resStart;
-		System.err.println("in detail comparator:");
-		System.err.println("words1: " + words1.size() + " | " + words1.toString());
-		System.err.println("words2: " + words2.size() + " | " + words2.toString());
+//		System.err.println("in detail comparator:");
+//		System.err.println("words1: " + words1.size() + " | " + words1.toString());
+//		System.err.println("words2: " + words2.size() + " | " + words2.toString());
 	}
 	
 	public List<Similarity> findSimilarities() {
@@ -46,31 +46,46 @@ public class DetailComparatorIterative implements DetailComparator {
 		int minSize1 = Math.min(MIN_WORDS, words1.size());
 		int minSize2 = Math.min(MIN_WORDS, words2.size());
 		
+		int n1 = (words1.size()-1)*(words1.size()-minSize1+1)/2;
+		int n2 = (words2.size()-1)*(words2.size()-minSize2+1)/2;
+		List<String> substrings1 = new ArrayList<>(n1);
+		List<String> substrings2 = new ArrayList<>(n2);
+		List<Integer> start1 = new ArrayList<>(n1);
+		List<Integer> end1 = new ArrayList<>(n1);
+		List<Integer> start2 = new ArrayList<>(n2);
+		List<Integer> end2 = new ArrayList<>(n2);
+		
 		for (int size1 = words1.size(); size1 >= minSize1; size1--) {
-			for (int start1 = 0; start1+size1 <= words1.size(); start1++) {
-				
-				String substring1 = String.join(" ", words1.subList(start1, start1+size1));
-				
-				for (int size2 = words2.size(); size2 >= minSize2; size2--) {
-					for (int start2 = 0; start2+size2 <= words2.size(); start2++) {
-						++count;
-						String substring2 = String.join(" ", words2.subList(start2, start2+size2));
-						
-						double sim = dice.similarity(substring1, substring2);
-						
-						if (SIM_THRESHHOLD <= sim) {
-							Similarity similarity = new Similarity(docStart+start1, docStart+start1+size1-1, resourceId,//
-																				resStart+start2, resStart+start2+size2-1, sim);
-							detectedSimilarities.add(similarity);
-							System.err.println("substring1: " + substring1);
-							System.err.println("substring2: " + substring2);
-							System.err.println("=> " + sim);
-						}
-						
-					}
-				}
+			for (int _start1 = 0; _start1+size1 <= words1.size(); _start1++) {
+				substrings1.add(String.join(" ", words1.subList(_start1, _start1+size1)));
+				start1.add(_start1);
+				end1.add(_start1+size1-1);
+			}
+		}	
+		for (int size2 = words2.size(); size2 >= minSize2; size2--) {
+			for (int _start2 = 0; _start2+size2 <= words2.size(); _start2++) {
+				substrings2.add(String.join(" ", words2.subList(_start2, _start2+size2)));
+				start2.add(_start2);
+				end2.add(_start2+size2-1);
 			}
 		}
+		
+		int i=0, j=0;
+		for (String substring1 : substrings1) {
+			for (String substring2 : substrings2) {
+				++count;
+				double sim = dice.similarity(substring1, substring2);
+				if (SIM_THRESHHOLD <= sim) {
+					Similarity similarity = new Similarity(docStart+start1.get(i), docStart+end1.get(i), resourceId,//
+																	resStart+start2.get(j), resStart+end2.get(j), sim);
+					detectedSimilarities.add(similarity);
+				}
+				++j;
+			}
+			j=0;
+			++i;
+		}
+		
 	}
 	
 	private void filterSimilarities() {
