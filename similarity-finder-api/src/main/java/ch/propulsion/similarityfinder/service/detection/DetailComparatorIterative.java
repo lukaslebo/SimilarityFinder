@@ -17,7 +17,7 @@ public class DetailComparatorIterative implements DetailComparator {
 	private final String resourceId;
 	private final int docStart;
 	private final int resStart;
-	private int count = 0;
+//	private int count = 0;
 	
 	private List<Similarity> detectedSimilarities = new ArrayList<>();
 	private List<Similarity> uniqueSimilarities = new ArrayList<>();
@@ -38,7 +38,7 @@ public class DetailComparatorIterative implements DetailComparator {
 	public List<Similarity> findSimilarities() {
 		combinationLooper();
 		filterSimilarities();
-		System.err.println("count: " + count);
+//		System.err.println("count: " + count);
 		return uniqueSimilarities;
 	}
 	
@@ -73,7 +73,7 @@ public class DetailComparatorIterative implements DetailComparator {
 		int i=0, j=0;
 		for (String substring1 : substrings1) {
 			for (String substring2 : substrings2) {
-				++count;
+//				++count;
 				double sim = dice.similarity(substring1, substring2);
 				if (SIM_THRESHHOLD <= sim) {
 					Similarity similarity = new Similarity(docStart+start1.get(i), docStart+end1.get(i), resourceId,//
@@ -93,7 +93,7 @@ public class DetailComparatorIterative implements DetailComparator {
 			compareToAll(similarity);
 		}
 		setUniqueSimilarities();
-		System.err.println("unique similarities: " + uniqueSimilarities.size());
+//		System.err.println("unique similarities: " + uniqueSimilarities.size());
 		reduceUniqueSimilarities();
 	}
 	
