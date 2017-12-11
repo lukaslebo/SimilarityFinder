@@ -6,7 +6,10 @@ class SummaryScreen extends React.Component {
 
   summaryText = () => {
     const n = this.props.similarities.length;
-    if (n === 0) {
+    if (!this.props.isProcessed) {
+      return 'Press Run to find similarities.';
+    }
+    else if (n === 0) {
       return 'No similarities detected.';
     }
     else {
