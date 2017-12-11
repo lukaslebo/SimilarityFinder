@@ -55,7 +55,8 @@ class HighlightedText extends React.Component {
           ++corr;
         }
         sim.startIndex += corr;
-        sim.endIndex = words.slice(0, sim.endIndex+1).join(" ").length + corr-1;
+        sim.endIndex = words.slice(0, sim.endIndex+1).join(" ").length + corr//
+              - (sim.startIndex === 0 ? 0:1);
       } 
       else if (this.props.id === 'right') {
         sim.resourceStartIndex = words.slice(0, sim.resourceStartIndex).join(" ").length;
@@ -71,7 +72,8 @@ class HighlightedText extends React.Component {
           ++corr;
         }
         sim.resourceStartIndex += corr;
-        sim.resourceEndIndex = words.slice(0, sim.resourceEndIndex+1).join(" ").length + corr-1;
+        sim.resourceEndIndex = words.slice(0, sim.resourceEndIndex+1).join(" ").length + corr//
+              - (sim.resourceStartIndex === 0 ? 0:1);
       }
     }
   }
