@@ -35,7 +35,7 @@ const webApiReducer = (state = initialState, action) => {
       return newState;
 
     case REFRESH_USER:
-      if (action.payload.exists) {
+      if (action.payload.user_exists) {
         newState.expiresAt = toMoment(action.payload.expiresAt);
       }
       return newState;
