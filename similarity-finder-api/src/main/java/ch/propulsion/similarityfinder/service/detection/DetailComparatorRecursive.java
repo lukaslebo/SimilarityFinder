@@ -2,7 +2,11 @@ package ch.propulsion.similarityfinder.service.detection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import ch.propulsion.similarityfinder.domain.Similarity;
@@ -21,6 +25,7 @@ public class DetailComparatorRecursive implements DetailComparator {
 	private int minSize2;
 	private int count = 0;
 	
+	private Set<Map<String, Integer>> posChecked = new HashSet<>();
 	private List<Similarity> detectedSimilarities = new ArrayList<>();
 	private List<Similarity> uniqueSimilarities = new ArrayList<>();
 	
@@ -32,9 +37,9 @@ public class DetailComparatorRecursive implements DetailComparator {
 		this.resourceId = resourceId;
 		this.docStart = docStart;
 		this.resStart = resStart;
-		System.err.println("in detail comparator:");
-		System.err.println("words1: " + words1.size() + " | " + words1.toString());
-		System.err.println("words2: " + words2.size() + " | " + words2.toString());
+//		System.err.println("in detail comparator:");
+//		System.err.println("words1: " + words1.size() + " | " + words1.toString());
+//		System.err.println("words2: " + words2.size() + " | " + words2.toString());
 	}
 	
 	public List<Similarity> findSimilarities() {
@@ -47,10 +52,13 @@ public class DetailComparatorRecursive implements DetailComparator {
 	private void combinationLooper() {
 		minSize1 = Math.min(MIN_WORDS, words1.size());
 		minSize2 = Math.min(MIN_WORDS, words2.size());
-		combinationLooperRecursive(0, 0, words1.size(), words2.size(), 0);
+		combinationLooperRecursive(0, 0, words1.size(), words2.size(), 0, 0);
 	}
 	
-	private void combinationLooperRecursive(int start1, int start2, int end1, int end2, double prevSim) {
+	private void combinationLooperRecursive(int start1, int start2, int end1, int end2, double prevSim, int followingDecreases) {
+		if (checkAndSetPos(start1, start2, end1, end2)) {
+			return;
+		}
 		if (end1 - start1 < minSize1 || end2 - start2 < minSize2) {
 			return;
 		}
@@ -61,16 +69,47 @@ public class DetailComparatorRecursive implements DetailComparator {
 //		System.err.println("substring1: " + substring1);
 //		System.err.println("substring2: " + substring2);
 //		System.err.println("=> " + sim);
-		if (prevSim < sim || 0.5 < sim) {
+		if (prevSim >= sim) {
+			++followingDecreases;
+		} else {
+			followingDecreases = 0;
+		}
+		if (followingDecreases <= 3 && sim > dynamicThreshold(start1, start2, end1, end2)) {
 			if (SIM_THRESHHOLD <= sim) {
 				Similarity similarity = new Similarity(docStart+start1, docStart+end1-1, resourceId,//
 																resStart+start2, resStart+end2-1, sim);
 				detectedSimilarities.add(similarity);
+				if (Math.abs(sim-1) <= Math.pow(10, -10)) {
+					return;
+				}
 			}
-			combinationLooperRecursive(start1, start2, end1, end2-1, sim);
-			combinationLooperRecursive(start1, start2, end1-1, end2, sim);
-			combinationLooperRecursive(start1, start2+1, end1, end2, sim);
-			combinationLooperRecursive(start1+1, start2, end1, end2, sim);
+			combinationLooperRecursive(start1, start2, end1, end2-1, sim, followingDecreases);
+			combinationLooperRecursive(start1, start2, end1-1, end2, sim, followingDecreases);
+			combinationLooperRecursive(start1, start2+1, end1, end2, sim, followingDecreases);
+			combinationLooperRecursive(start1+1, start2, end1, end2, sim, followingDecreases);
+		}
+	}
+	
+	private double dynamicThreshold(int start1, int start2, int end1, int end2) {
+		double length = Math.max(end1-start1, end2-start2)-1;
+		double lim = Math.max(minSize1, minSize2);
+		double pow = 1.5*(1-Math.exp(-length/20.));
+		return Math.pow(lim/(length+lim), pow)*0.85;
+	}
+	
+	private boolean checkAndSetPos(int start1, int start2, int end1, int end2) {
+		Map<String, Integer> pos = new HashMap<>();
+		pos.put("start1", start1);
+		pos.put("end1", end1);
+		pos.put("start2", start2);
+		pos.put("end2", end2);
+		boolean contains = posChecked.contains(pos);
+		if (contains) {
+			return true;
+		}
+		else {
+			posChecked.add(pos);
+			return false;
 		}
 	}
 	
