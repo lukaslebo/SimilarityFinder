@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -25,15 +26,15 @@ public class ApplicationController {
 	private final UserService userService;
 	private final TaskScheduler taskScheduler;
 	private final SimpMessagingTemplate template;
-	private final DocumentComparator comparator;
+	private final AutowireCapableBeanFactory beanFactory;
 
 	@Autowired
-	public ApplicationController(UserService userService, TaskScheduler taskScheduler, SimpMessagingTemplate template, 
-			DocumentComparator comparator) {
+	public ApplicationController(UserService userService, TaskScheduler taskScheduler, 
+			SimpMessagingTemplate template, AutowireCapableBeanFactory beanFactory) {
 		this.userService = userService;
 		this.taskScheduler = taskScheduler;
 		this.template = template;
-		this.comparator = comparator;
+		this.beanFactory = beanFactory;
 	}
 	
 	@MessageMapping("/start-detection/{userId}")
@@ -47,6 +48,8 @@ public class ApplicationController {
 		}
 		taskScheduler.schedule(() -> {
 			System.out.println("Starting detection for user: " + userId);
+			DocumentComparator comparator = new DocumentComparator();
+			beanFactory.autowireBean(comparator);
 			comparator.initiateDetection(userId);
 		}, new Date());
 		response.put("status","ok");

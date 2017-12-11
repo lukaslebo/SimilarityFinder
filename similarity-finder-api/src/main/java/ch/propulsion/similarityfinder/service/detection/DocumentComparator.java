@@ -3,7 +3,6 @@ package ch.propulsion.similarityfinder.service.detection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import ch.propulsion.similarityfinder.domain.Document;
 import ch.propulsion.similarityfinder.domain.Similarity;
@@ -11,16 +10,23 @@ import ch.propulsion.similarityfinder.service.entity.SimilarityService;
 import ch.propulsion.similarityfinder.service.entity.UserService;
 import ch.propulsion.similarityfinder.web.ApplicationController;
 
-@Service
 public class DocumentComparator {
 	
+	/*
+	 * DEPENDENCIES
+	 */
 	@Autowired
 	private ApplicationController appController;
-	
-	private final UserService userService;
-	private final SimilarityService simService;
-	private final SorensenDice dice;
-	
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private SimilarityService simService;
+	@Autowired
+	private SorensenDice dice;
+
+	/*
+	 * FIELDS
+	 */
 	private String userId;
 	private Document document;
 	private List<Document> resources;
@@ -29,13 +35,9 @@ public class DocumentComparator {
 	private int progress;
 	private int countDetail = 0;
 
-	@Autowired
-	public DocumentComparator(UserService userService, SimilarityService simService, SorensenDice dice) {
-		this.userService = userService;
-		this.simService = simService;
-		this.dice = dice;
-	}
-	
+	/*
+	 * INITIATE DETECTION
+	 */
 	public void initiateDetection(String userId) {
 		this.userId = userId;
 		document = userService.getDocument(userId);
@@ -51,7 +53,10 @@ public class DocumentComparator {
 		reset();
 		appController.updateProcessDone(userId);
 	}
-
+	
+	/*
+	 * PRIVATE METHODS
+	 */
 	private void reset() {
 		document = null;
 		resources = null;
