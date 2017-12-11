@@ -1,7 +1,5 @@
 package ch.propulsion.similarityfinder.dbUtils;
 
-import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -34,9 +32,9 @@ public class DataBaseLoader implements ApplicationRunner {
 	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		String userId = "2419373b-8f09-4183-8c61-7d9bfb597543";
-		LocalDateTime expirationDate = LocalDateTime.now().plusYears(1);
-		userService.setExpirationDate(userId, expirationDate);
+//		String userId = "2419373b-8f09-4183-8c61-7d9bfb597543";
+//		LocalDateTime expirationDate = LocalDateTime.now().plusYears(1);
+//		userService.setExpirationDate(userId, expirationDate);
 	}
 
 }
