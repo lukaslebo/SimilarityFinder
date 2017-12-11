@@ -27,6 +27,7 @@ public class DocumentComparator {
 	private int TOTAL_CYCLES;
 	private int completedCycles;
 	private int progress;
+	private int countDetail = 0;
 
 	@Autowired
 	public DocumentComparator(UserService userService, SimilarityService simService, SorensenDice dice) {
@@ -77,9 +78,13 @@ public class DocumentComparator {
 	}
 	
 	private void documentLooper() {
+		Long time = System.nanoTime();
 		for (Document resource : resources) {
 			compareDocuments(document, resource);
 		}
+		time = Math.round((System.nanoTime()-time)/Math.pow(10,9)); 
+		System.err.println("time required is " + time + " seconds");
+		System.err.println("DetailComparator called " + countDetail + " times");
 	}
 	
 	private void compareDocuments(Document document, Document resource) {		
@@ -92,28 +97,28 @@ public class DocumentComparator {
 		int docEnd;
 		int resStart;
 		int resEnd;
-		int wordCount1;
-		int wordCount2;
+		int size1;
+		int size2;
 		double sim;
 		
 		for (int i = 0; i < startIndex.size(); i++) {
 			
 			docStart = startIndex.get(i);
 			docEnd = endIndex.get(i);
-			wordCount1 = docEnd - docStart + 1;
+			size1 = docEnd - docStart + 1;
 			
 			for (int j = 0; j < resourceStartIndex.size(); j++) {
 				
 				resStart = resourceStartIndex.get(j);
 				resEnd = resourceEndIndex.get(j);
-				wordCount2 = resEnd - resStart + 1;
+				size2 = resEnd - resStart + 1;
 				String s1 = document.getSubset(docStart, docEnd);
 				String s2 = resource.getSubset(resStart, resEnd);
 				
 				sim = dice.similarity(s1, s2);
 				
-				if (sentenceThreshhold(s1, wordCount1, s2, wordCount2) < sim) {
-					
+				if (dynamicThreshold(size1, size2, s1.length(), s2.length()) < sim) {
+					++countDetail;
 					detailComparator = new DetailComparatorIterative(s1, s2, resource.getId(), docStart, resStart);
 					
 					List<Similarity> similarityList = detailComparator.findSimilarities();
@@ -127,41 +132,18 @@ public class DocumentComparator {
 				trackProgress();
 				
 			}
-		}	
-	}
-	
-	private double sentenceThreshhold(String s1, int wordCount1, String s2, int wordCount2) {
-		int wordCount = Math.max(wordCount1, wordCount2);
-		int stringLength = Math.max(s1.length(), s2.length());
-		return Math.min(wordBasedThreshhold(wordCount), lengthBasedThreshhold(stringLength));
-	}
-	
-	private double wordBasedThreshhold(int wordCount) {
-		int lowerLimit = 3;
-		int upperLimit = 70;
-		double minTH = 0;
-		double maxTH = 0.6;
-		return computeThreshhold(wordCount, lowerLimit, upperLimit, minTH, maxTH);
-	}
-	
-	private double lengthBasedThreshhold(int stringLength) {
-		int lowerLimit = 10;
-		int upperLimit = 400;
-		double minTH = 0;
-		double maxTH = 0.6;
-		return computeThreshhold(stringLength, lowerLimit, upperLimit, minTH, maxTH);
-	}
-	
-	private double computeThreshhold(int n, int lowerLimit, int upperLimit, double minTH, double maxTH) {
-		if (n <= lowerLimit) {
-			return maxTH;
 		}
-		else if (n >= upperLimit) {
-			return minTH;
-		}
-		else {
-			return minTH + (maxTH - minTH) * (upperLimit - n) / (upperLimit - lowerLimit);
-		}
+		
+	}
+	
+	private double dynamicThreshold(int size1, int size2, int length1, int length2) {
+		double size = Math.max(size1, size2);
+		double wordThreshold = Math.max(Math.pow(3/(size+3), size/70)*0.65,  -0.01*size+0.63);
+		
+		double length = Math.max(length1, length2);
+		double lengthThreshold = Math.max(0.7*Math.pow(1/(length+1), length/800), -0.00154*length+0.6);
+		
+		return Math.min(wordThreshold, lengthThreshold);
 	}
 	
 	private void trackProgress() {
