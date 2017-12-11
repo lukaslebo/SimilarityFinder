@@ -28,8 +28,4 @@ class AddButton extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  ...state.displayReducer,
-});
-
-export default connect(mapStateToProps)(AddButton);
+export default connect()(AddButton);

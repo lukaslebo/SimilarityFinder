@@ -91,10 +91,7 @@ class LoadingIndicator extends React.Component {
     </div>
     );
   }
+
 }
 
-const mapStateToProps = (state) => ({
-  ...state,
-});
-
-export default connect(mapStateToProps)(LoadingIndicator);
+export default connect()(LoadingIndicator);

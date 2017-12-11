@@ -32,8 +32,4 @@ class ProgressBar extends React.Component {
 
 }
 
-const mapStateToProps = (state) => ({
-  ...state,
-});
-
-export default connect(mapStateToProps)(ProgressBar);
+export default connect()(ProgressBar);
