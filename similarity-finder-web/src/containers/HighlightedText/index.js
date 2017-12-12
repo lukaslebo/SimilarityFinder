@@ -39,9 +39,9 @@ class HighlightedText extends React.Component {
   adjustIndexes = (similarities) => {
     const doc = this.documentSelector();
     const words = doc.parsedDocument_punctuated;
-    let corr = 0;
-    let unshifts = 0;
     for (let sim of similarities) {
+      let corr = 0;
+      let unshifts = 0;
       if (this.props.id === 'left') {
         sim.startIndex = words.slice(0, sim.startIndex).join(" ").length;
         while (true) {
@@ -56,8 +56,10 @@ class HighlightedText extends React.Component {
         while ((doc.content.charAt(sim.startIndex+corr).match(/[\s]/g) || []).length > 0) {
           ++corr;
         }
-        while ((doc.content.charAt(sim.startIndex+corr-unshifts-1).match(/[\s]/g) || []).length === 0) {
-          ++unshifts;
+        if (sim.startIndex > 0) {
+          while ((doc.content.charAt(sim.startIndex+corr-unshifts-1).match(/[\s]/g) || []).length === 0) {
+            ++unshifts;
+          }
         }
         sim.startIndex += corr - unshifts;
 
@@ -77,11 +79,6 @@ class HighlightedText extends React.Component {
         }
       } 
       else if (this.props.id === 'right') {
-        window.text = doc.content;
-        window.words = words;
-        window.sim = Object.assign({},sim);
-        window.ocs = this.occurrences;
-
         sim.resourceStartIndex = words.slice(0, sim.resourceStartIndex).join(' ').length;
         while (true) {
           let string = doc.content.substr(0, sim.resourceStartIndex+corr);
@@ -95,8 +92,10 @@ class HighlightedText extends React.Component {
         while ((doc.content.charAt(sim.resourceStartIndex+corr).match(/[\s]/g) || []).length > 0) {
           ++corr;
         }
-        while ((doc.content.charAt(sim.resourceStartIndex+corr-unshifts-1).match(/[\s]/g) || []).length === 0) {
-          ++unshifts;
+        if (sim.resourceStartIndex > 0) {
+          while ((doc.content.charAt(sim.resourceStartIndex+corr-unshifts-1).match(/[\s]/g) || []).length === 0) {
+            ++unshifts;
+          }
         }
         sim.resourceStartIndex += corr - unshifts;
         
