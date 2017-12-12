@@ -78,6 +78,9 @@ class InfoCard extends React.Component {
       <div className="dimmer" onClick={ this.closeCard }>
         <div className={`info-card ${ this.cardClass() }`} onClick={ this.preventClickThrough }>
           { this.infoContent() }
+          <button type="button" className="close close-info" onClick={ this.closeCard } aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
       </div>
     );
