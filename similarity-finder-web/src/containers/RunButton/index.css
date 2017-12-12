@@ -18,3 +18,8 @@
 .constrain {
   display: inline-block;
 }
+
+.modal {
+  position: absolute;
+  top: 30%;
+}

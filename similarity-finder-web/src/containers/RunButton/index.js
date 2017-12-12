@@ -35,6 +35,7 @@ class RunButton extends React.Component {
       this.setState({
         requestInProcess: true,
       });
+      // this.props.dispatch(showProgress());
       this.props.dispatch(removeSimilarities());
     }
   }
@@ -66,6 +67,7 @@ class RunButton extends React.Component {
       this.setState({
         requestInProcess: false,
       });
+      window.$('#detection-info').modal('show')
     }
   }
 
@@ -75,6 +77,42 @@ class RunButton extends React.Component {
 
   unhover = () => {
     window.$('.btn-description>span').css('color','');
+  }
+
+  infoModal = () => {
+    let sims = this.props.similarities;
+    let simObj = {};
+    for (let res of this.props.resources) {
+      simObj[res.id] = { name: res.fileName, simCount: 0 };
+    }
+    for (let sim of sims) {
+      simObj[sim.resourceId].simCount++;
+    }
+    let simArr = window.$.map(simObj, (val, index) => { return val; });
+    let header = 'No Similarities detected.';
+    if (this.props.similarities.length > 0) {
+      header = `${ this.props.similarities.length } Similarities detected.`
+    }
+    return (
+      <div className="modal fade" id="detection-info" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLongTitle">Similarity Detection Complete</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <h4>{ header }</h4>
+              { simArr.map( (val, index) => {
+                return (<p key={ index }>{ val.name } has { val.simCount } similarit{ val.simCount !== 1 ? 'ies' : 'y' }.</p>);
+              }) }
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   render() {
@@ -88,6 +126,7 @@ class RunButton extends React.Component {
           <p className="btn-description nonselectable">Find <span>Similarities</span></p>
           <button id="run-button" className="btn btn-outline-primary clickable" onClick={ this.run } onMouseEnter={ this.hover } onMouseLeave={ this.unhover }>Run</button>
         </div>
+        { this.infoModal() }
         { overlay }
       </div>
     );
