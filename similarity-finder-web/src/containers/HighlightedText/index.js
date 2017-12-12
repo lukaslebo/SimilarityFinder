@@ -40,40 +40,80 @@ class HighlightedText extends React.Component {
     const doc = this.documentSelector();
     const words = doc.parsedDocument_punctuated;
     let corr = 0;
+    let unshifts = 0;
     for (let sim of similarities) {
       if (this.props.id === 'left') {
         sim.startIndex = words.slice(0, sim.startIndex).join(" ").length;
         while (true) {
           let string = doc.content.substr(0, sim.startIndex+corr);
-          let matches = this.occurrences(string, "\n\n", true);
+          let matches = this.occurrences(string, "\n", true);
+          matches += this.occurrences(string, "\r", true);
           if (matches === corr) {
             break;
           }
           corr = matches;
         }
-        while ((doc.content.charAt(sim.startIndex+corr).match(/[ \n]/g) || []).length > 0) {
+        while ((doc.content.charAt(sim.startIndex+corr).match(/[\s]/g) || []).length > 0) {
           ++corr;
         }
-        sim.startIndex += corr;
-        sim.endIndex = words.slice(0, sim.endIndex+1).join(" ").length + corr//
-              - (sim.startIndex === 0 ? 0:1);
+        while ((doc.content.charAt(sim.startIndex+corr-unshifts-1).match(/[\s]/g) || []).length === 0) {
+          ++unshifts;
+        }
+        sim.startIndex += corr - unshifts;
+
+        sim.endIndex = words.slice(0, sim.endIndex+1).join(" ").length;
+        while (true) {
+          let string = doc.content.substr(0, sim.endIndex+corr);
+          let matches = this.occurrences(string, "\n", true);
+          matches += this.occurrences(string, "\r", true);
+          if (matches === corr) {
+            break;
+          }
+          corr = matches;
+        }
+        sim.endIndex += corr - unshifts;
+        if ((doc.content.charAt(sim.endIndex-1).match(/[\s]/g) || []).length > 0) {
+          sim.endIndex--;
+        }
       } 
       else if (this.props.id === 'right') {
-        sim.resourceStartIndex = words.slice(0, sim.resourceStartIndex).join(" ").length;
+        window.text = doc.content;
+        window.words = words;
+        window.sim = Object.assign({},sim);
+        window.ocs = this.occurrences;
+
+        sim.resourceStartIndex = words.slice(0, sim.resourceStartIndex).join(' ').length;
         while (true) {
           let string = doc.content.substr(0, sim.resourceStartIndex+corr);
-          let matches = this.occurrences(string, "\n\n", true);
+          let matches = this.occurrences(string, '\n', true);
+          matches += this.occurrences(string, '\r', true);
           if (matches === corr) {
             break;
           }
           corr = matches;
         }
-        while ((doc.content.charAt(sim.resourceStartIndex+corr).match(/[ \n]/g) || []).length > 0) {
+        while ((doc.content.charAt(sim.resourceStartIndex+corr).match(/[\s]/g) || []).length > 0) {
           ++corr;
         }
-        sim.resourceStartIndex += corr;
-        sim.resourceEndIndex = words.slice(0, sim.resourceEndIndex+1).join(" ").length + corr//
-              - (sim.resourceStartIndex === 0 ? 0:1);
+        while ((doc.content.charAt(sim.resourceStartIndex+corr-unshifts-1).match(/[\s]/g) || []).length === 0) {
+          ++unshifts;
+        }
+        sim.resourceStartIndex += corr - unshifts;
+        
+        sim.resourceEndIndex = words.slice(0, sim.resourceEndIndex+1).join(' ').length;
+        while (true) {
+          let string = doc.content.substr(0, sim.resourceEndIndex+corr);
+          let matches = this.occurrences(string, '\n', true);
+          matches += this.occurrences(string, '\r', true);
+          if (matches === corr) {
+            break;
+          }
+          corr = matches;
+        }
+        sim.resourceEndIndex += corr - unshifts;
+        if ((doc.content.charAt(sim.resourceEndIndex-1).match(/[\s]/g) || []).length > 0) {
+          sim.resourceEndIndex--;
+        }
       }
     }
   }
@@ -121,7 +161,7 @@ class HighlightedText extends React.Component {
     var textNodes = range.getNodes([3]);
     for (let textNode of textNodes) {
         let span = document.createElement("span");
-        span.className = "highlight";
+        span.className = "highlight clickable";
         span.setAttribute('data-sim-id', sim.id);
         textNode.parentNode.insertBefore(span, textNode);
         span.appendChild(textNode);
