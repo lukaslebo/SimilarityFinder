@@ -2,7 +2,7 @@ import { SET_NEW_USER, REFRESH_USER, SET_DOCUMENT, SET_RESOURCES, REMOVE_DOCUMEN
   REMOVE_RESOURCE, SELECT_RESOURCE, SET_PROGRESS, SET_SIMILARITIES, REMOVE_SIMILARITIES } from '../actions/types';
 import Moment from 'moment';
 
-const API_BASE_URL = 'http://192.168.1.200:8080'; //'http://localhost:8080';
+const API_BASE_URL = 'http://localhost:8080'; //'http://localhost:8080';
 
 const initialState = {
   apiBaseUrl: API_BASE_URL,
