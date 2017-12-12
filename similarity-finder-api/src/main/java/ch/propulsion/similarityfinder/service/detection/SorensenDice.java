@@ -6,11 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import javax.annotation.concurrent.Immutable;
-
 import org.springframework.stereotype.Component;
 
-@Immutable
 @Component
 public final class SorensenDice {
 	
